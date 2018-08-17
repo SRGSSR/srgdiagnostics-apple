@@ -124,7 +124,7 @@
     @synchronized(self.timeMeasurements) {
         NSMutableDictionary<NSString *, id> *dictionary = [NSMutableDictionary dictionary];
         [self.timeMeasurements enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGTimeMeasurement * _Nonnull timeMeasurement, BOOL * _Nonnull stop) {
-            dictionary[key] = @(timeMeasurement.timeInterval * 1000.);
+            dictionary[key] = @(round(timeMeasurement.timeInterval * 1000.));
         }];
         return dictionary;
     }

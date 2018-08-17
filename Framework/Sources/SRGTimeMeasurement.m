@@ -20,7 +20,7 @@
 - (NSTimeInterval)timeInterval
 {
     @synchronized(self) {
-        return round([self.endDate timeIntervalSinceDate:self.startDate]);
+        return [self.endDate timeIntervalSinceDate:self.startDate];
     }
 }
 
