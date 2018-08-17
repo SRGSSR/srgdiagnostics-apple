@@ -6,5 +6,9 @@
 
 #import <UIKit/UIKit.h>
 
+// Public headers.
+#import "SRGDiagnosticReport.h"
+#import "SRGDiagnosticsService.h"
+
 // Official version number.
 FOUNDATION_EXPORT NSString *SRGDiagnosticsMarketingVersion(void);
