@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6F126F4B2126E34300158646"
+               BuildableName = "SRGDiagnostics-tests.xctest"
+               BlueprintName = "SRGDiagnostics-tests"
+               ReferencedContainer = "container:SRGDiagnostics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6F0EB53020FC7F58009C02CF"
+            BuildableName = "SRGDiagnostics.framework"
+            BlueprintName = "SRGDiagnostics"
+            ReferencedContainer = "container:SRGDiagnostics.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

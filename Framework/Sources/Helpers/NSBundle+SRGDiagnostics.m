@@ -17,7 +17,9 @@
     static NSBundle *s_bundle;
     static dispatch_once_t s_onceToken;
     dispatch_once(&s_onceToken, ^{
-        s_bundle = [NSBundle bundleForClass:[SRGDiagnosticsService class]];
+        NSString *bundlePath = [[NSBundle bundleForClass:[SRGDiagnosticsService class]].bundlePath stringByAppendingPathComponent:@"SRGDiagnostics.bundle"];
+        s_bundle = [NSBundle bundleWithPath:bundlePath];
+        NSAssert(s_bundle, @"Please add SRGDiagnostics.bundle to your project resources");
     });
     return s_bundle;
 }

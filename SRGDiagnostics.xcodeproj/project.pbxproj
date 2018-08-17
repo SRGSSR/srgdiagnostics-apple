@@ -15,9 +15,29 @@
 		6F126F432126C9E700158646 /* SRGDiagnosticReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F412126C9E700158646 /* SRGDiagnosticReport.m */; };
 		6F126F462126CF2900158646 /* SRGTimeMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F126F442126CF2900158646 /* SRGTimeMeasurement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F126F472126CF2900158646 /* SRGTimeMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F452126CF2900158646 /* SRGTimeMeasurement.m */; };
+		6F126F4F2126E34300158646 /* SRGDiagnosticReportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F4E2126E34300158646 /* SRGDiagnosticReportTestCase.m */; };
+		6F126F512126E34300158646 /* SRGDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0EB53120FC7F58009C02CF /* SRGDiagnostics.framework */; };
+		6F126F672126E7F800158646 /* SRGDiagnostics.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6F126F5D2126E79E00158646 /* SRGDiagnostics.bundle */; };
 		6F1EA3082126C92E0095820B /* SRGDiagnosticsService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F1EA3092126C92E0095820B /* SRGDiagnosticsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6F126F522126E34300158646 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F0EB52820FC7F58009C02CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F0EB53020FC7F58009C02CF;
+			remoteInfo = SRGDiagnostics;
+		};
+		6F126F652126E7F300158646 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F0EB52820FC7F58009C02CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F126F5C2126E79E00158646;
+			remoteInfo = "SRGDiagnostics-resources";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6F0EB53120FC7F58009C02CF /* SRGDiagnostics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGDiagnostics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,12 +50,31 @@
 		6F126F412126C9E700158646 /* SRGDiagnosticReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticReport.m; sourceTree = "<group>"; };
 		6F126F442126CF2900158646 /* SRGTimeMeasurement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGTimeMeasurement.h; sourceTree = "<group>"; };
 		6F126F452126CF2900158646 /* SRGTimeMeasurement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGTimeMeasurement.m; sourceTree = "<group>"; };
+		6F126F4C2126E34300158646 /* SRGDiagnostics-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGDiagnostics-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F126F4E2126E34300158646 /* SRGDiagnosticReportTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticReportTestCase.m; sourceTree = "<group>"; };
+		6F126F502126E34300158646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F126F5D2126E79E00158646 /* SRGDiagnostics.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGDiagnostics.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticsService.h; sourceTree = "<group>"; };
 		6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6F0EB52D20FC7F58009C02CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F126F492126E34300158646 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F126F512126E34300158646 /* SRGDiagnostics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F126F5A2126E79E00158646 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -49,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				6F0EB53C20FC7FA9009C02CF /* Framework */,
+				6F126F4D2126E34300158646 /* Tests */,
 				6F0EB53220FC7F58009C02CF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				6F0EB53120FC7F58009C02CF /* SRGDiagnostics.framework */,
+				6F126F4C2126E34300158646 /* SRGDiagnostics-tests.xctest */,
+				6F126F5D2126E79E00158646 /* SRGDiagnostics.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +137,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		6F126F4D2126E34300158646 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6F126F4E2126E34300158646 /* SRGDiagnosticReportTestCase.m */,
+				6F126F502126E34300158646 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -125,11 +176,47 @@
 			buildRules = (
 			);
 			dependencies = (
+				6F126F662126E7F300158646 /* PBXTargetDependency */,
 			);
 			name = SRGDiagnostics;
 			productName = SRGDiagnostics;
 			productReference = 6F0EB53120FC7F58009C02CF /* SRGDiagnostics.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		6F126F4B2126E34300158646 /* SRGDiagnostics-tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F126F542126E34300158646 /* Build configuration list for PBXNativeTarget "SRGDiagnostics-tests" */;
+			buildPhases = (
+				6F126F482126E34300158646 /* Sources */,
+				6F126F492126E34300158646 /* Frameworks */,
+				6F126F4A2126E34300158646 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F126F532126E34300158646 /* PBXTargetDependency */,
+			);
+			name = "SRGDiagnostics-tests";
+			productName = "SRGDiagnostics-tests";
+			productReference = 6F126F4C2126E34300158646 /* SRGDiagnostics-tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6F126F5C2126E79E00158646 /* SRGDiagnostics-resources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F126F602126E79E00158646 /* Build configuration list for PBXNativeTarget "SRGDiagnostics-resources" */;
+			buildPhases = (
+				6F126F592126E79E00158646 /* Sources */,
+				6F126F5A2126E79E00158646 /* Frameworks */,
+				6F126F5B2126E79E00158646 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SRGDiagnostics-resources";
+			productName = "SRGDiagnostics-resources";
+			productReference = 6F126F5D2126E79E00158646 /* SRGDiagnostics.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -141,6 +228,12 @@
 				ORGANIZATIONNAME = "SRG SSR";
 				TargetAttributes = {
 					6F0EB53020FC7F58009C02CF = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					6F126F4B2126E34300158646 = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					6F126F5C2126E79E00158646 = {
 						CreatedOnToolsVersion = 9.4;
 					};
 				};
@@ -158,12 +251,29 @@
 			projectRoot = "";
 			targets = (
 				6F0EB53020FC7F58009C02CF /* SRGDiagnostics */,
+				6F126F5C2126E79E00158646 /* SRGDiagnostics-resources */,
+				6F126F4B2126E34300158646 /* SRGDiagnostics-tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6F0EB52F20FC7F58009C02CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F126F672126E7F800158646 /* SRGDiagnostics.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F126F4A2126E34300158646 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F126F5B2126E79E00158646 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -185,7 +295,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6F126F482126E34300158646 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F126F4F2126E34300158646 /* SRGDiagnosticReportTestCase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F126F592126E79E00158646 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F126F532126E34300158646 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F0EB53020FC7F58009C02CF /* SRGDiagnostics */;
+			targetProxy = 6F126F522126E34300158646 /* PBXContainerItemProxy */;
+		};
+		6F126F662126E7F300158646 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F126F5C2126E79E00158646 /* SRGDiagnostics-resources */;
+			targetProxy = 6F126F652126E7F300158646 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6F0EB53720FC7F58009C02CF /* Debug */ = {
@@ -351,6 +489,138 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		6F126F552126E34300158646 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6F126F562126E34300158646 /* Debug-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-static";
+		};
+		6F126F572126E34300158646 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6F126F582126E34300158646 /* Release-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-static";
+		};
+		6F126F612126E79E00158646 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
+				PRODUCT_NAME = SRGDiagnostics;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		6F126F622126E79E00158646 /* Debug-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
+				PRODUCT_NAME = SRGDiagnostics;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Debug-static";
+		};
+		6F126F632126E79E00158646 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
+				PRODUCT_NAME = SRGDiagnostics;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		6F126F642126E79E00158646 /* Release-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
+				PRODUCT_NAME = SRGDiagnostics;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Release-static";
 		};
 		6F1EA3022125B3160095820B /* Debug-static */ = {
 			isa = XCBuildConfiguration;
@@ -541,6 +811,28 @@
 				6F1EA3032125B3160095820B /* Debug-static */,
 				6F0EB53B20FC7F58009C02CF /* Release */,
 				6F1EA3052125B31C0095820B /* Release-static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F126F542126E34300158646 /* Build configuration list for PBXNativeTarget "SRGDiagnostics-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F126F552126E34300158646 /* Debug */,
+				6F126F562126E34300158646 /* Debug-static */,
+				6F126F572126E34300158646 /* Release */,
+				6F126F582126E34300158646 /* Release-static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F126F602126E79E00158646 /* Build configuration list for PBXNativeTarget "SRGDiagnostics-resources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F126F612126E79E00158646 /* Debug */,
+				6F126F622126E79E00158646 /* Debug-static */,
+				6F126F632126E79E00158646 /* Release */,
+				6F126F642126E79E00158646 /* Release-static */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
