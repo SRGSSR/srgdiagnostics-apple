@@ -38,7 +38,28 @@
                                           @"string" : @"Hello, World!",
                                           @"number" : @7654.987,
                                           @"url" : @"https://www.apple.com" };
-    XCTAssertTrue([[report JSONDictionary] isEqualToDictionary:expectedDictionary]);
+    XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
+}
+
+- (void)testTimeMeasurement
+{
+    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    [report startTimeMeasurementWithIdentifier:@"time"];
+    [NSThread sleepForTimeInterval:1.];
+    [report stopTimeMeasurementWithIdentifier:@"time"];
+    NSDictionary *expectedDictionary = @{ @"time" : @1000. };
+    XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
+}
+
+- (void)testSubreport
+{
+    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    [report setString:@"parent" forKey:@"title"];
+    SRGDiagnosticReport *subreport = [report subreportWithIdentifier:@"subreport"];
+    [subreport setString:@"child" forKey:@"subtitle"];
+    NSDictionary *expectedDictionary = @{ @"title" : @"parent",
+                                          @"subreport" : @{ @"subtitle" : @"child" } };
+    XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
 }
 
 @end
