@@ -11,8 +11,8 @@
 		6F0EB54320FC7FF4009C02CF /* SRGDiagnostics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0EB54220FC7FF4009C02CF /* SRGDiagnostics.m */; };
 		6F0EB54720FC8049009C02CF /* NSBundle+SRGDiagnostics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0EB54520FC8049009C02CF /* NSBundle+SRGDiagnostics.m */; };
 		6F0EB54820FC8049009C02CF /* NSBundle+SRGDiagnostics.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F0EB54620FC8049009C02CF /* NSBundle+SRGDiagnostics.h */; };
-		6F0EB54C20FC80E2009C02CF /* SRGDiagnosticsService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F0EB54A20FC80E2009C02CF /* SRGDiagnosticsService.h */; };
-		6F0EB54D20FC80E2009C02CF /* SRGDiagnosticsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0EB54B20FC80E2009C02CF /* SRGDiagnosticsService.m */; };
+		6F1EA3082126C92E0095820B /* SRGDiagnosticsService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */; };
+		6F1EA3092126C92E0095820B /* SRGDiagnosticsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,8 +22,8 @@
 		6F0EB54220FC7FF4009C02CF /* SRGDiagnostics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnostics.m; sourceTree = "<group>"; };
 		6F0EB54520FC8049009C02CF /* NSBundle+SRGDiagnostics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SRGDiagnostics.m"; sourceTree = "<group>"; };
 		6F0EB54620FC8049009C02CF /* NSBundle+SRGDiagnostics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SRGDiagnostics.h"; sourceTree = "<group>"; };
-		6F0EB54A20FC80E2009C02CF /* SRGDiagnosticsService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticsService.h; sourceTree = "<group>"; };
-		6F0EB54B20FC80E2009C02CF /* SRGDiagnosticsService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsService.m; sourceTree = "<group>"; };
+		6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticsService.h; sourceTree = "<group>"; };
+		6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +65,9 @@
 		6F0EB53D20FC7FA9009C02CF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6F0EB54920FC8097009C02CF /* Player */,
 				6F0EB54420FC8049009C02CF /* Helpers */,
+				6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */,
+				6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */,
 				6F0EB53E20FC7FA9009C02CF /* SRGDiagnostics.h */,
 				6F0EB54220FC7FF4009C02CF /* SRGDiagnostics.m */,
 			);
@@ -82,15 +83,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		6F0EB54920FC8097009C02CF /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				6F0EB54A20FC80E2009C02CF /* SRGDiagnosticsService.h */,
-				6F0EB54B20FC80E2009C02CF /* SRGDiagnosticsService.m */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -100,7 +92,7 @@
 			files = (
 				6F0EB54020FC7FA9009C02CF /* SRGDiagnostics.h in Headers */,
 				6F0EB54820FC8049009C02CF /* NSBundle+SRGDiagnostics.h in Headers */,
-				6F0EB54C20FC80E2009C02CF /* SRGDiagnosticsService.h in Headers */,
+				6F1EA3082126C92E0095820B /* SRGDiagnosticsService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +165,7 @@
 			files = (
 				6F0EB54720FC8049009C02CF /* NSBundle+SRGDiagnostics.m in Sources */,
 				6F0EB54320FC7FF4009C02CF /* SRGDiagnostics.m in Sources */,
-				6F0EB54D20FC80E2009C02CF /* SRGDiagnosticsService.m in Sources */,
+				6F1EA3092126C92E0095820B /* SRGDiagnosticsService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
