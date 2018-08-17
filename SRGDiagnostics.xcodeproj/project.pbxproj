@@ -13,6 +13,8 @@
 		6F0EB54820FC8049009C02CF /* NSBundle+SRGDiagnostics.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F0EB54620FC8049009C02CF /* NSBundle+SRGDiagnostics.h */; };
 		6F126F422126C9E700158646 /* SRGDiagnosticReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F126F402126C9E700158646 /* SRGDiagnosticReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F126F432126C9E700158646 /* SRGDiagnosticReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F412126C9E700158646 /* SRGDiagnosticReport.m */; };
+		6F126F462126CF2900158646 /* SRGTimeMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F126F442126CF2900158646 /* SRGTimeMeasurement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F126F472126CF2900158646 /* SRGTimeMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F452126CF2900158646 /* SRGTimeMeasurement.m */; };
 		6F1EA3082126C92E0095820B /* SRGDiagnosticsService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F1EA3092126C92E0095820B /* SRGDiagnosticsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */; };
 /* End PBXBuildFile section */
@@ -26,6 +28,8 @@
 		6F0EB54620FC8049009C02CF /* NSBundle+SRGDiagnostics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SRGDiagnostics.h"; sourceTree = "<group>"; };
 		6F126F402126C9E700158646 /* SRGDiagnosticReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticReport.h; sourceTree = "<group>"; };
 		6F126F412126C9E700158646 /* SRGDiagnosticReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticReport.m; sourceTree = "<group>"; };
+		6F126F442126CF2900158646 /* SRGTimeMeasurement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGTimeMeasurement.h; sourceTree = "<group>"; };
+		6F126F452126CF2900158646 /* SRGTimeMeasurement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGTimeMeasurement.m; sourceTree = "<group>"; };
 		6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticsService.h; sourceTree = "<group>"; };
 		6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,6 +80,8 @@
 				6F0EB54220FC7FF4009C02CF /* SRGDiagnostics.m */,
 				6F126F402126C9E700158646 /* SRGDiagnosticReport.h */,
 				6F126F412126C9E700158646 /* SRGDiagnosticReport.m */,
+				6F126F442126CF2900158646 /* SRGTimeMeasurement.h */,
+				6F126F452126CF2900158646 /* SRGTimeMeasurement.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -98,6 +104,7 @@
 			files = (
 				6F126F422126C9E700158646 /* SRGDiagnosticReport.h in Headers */,
 				6F0EB54020FC7FA9009C02CF /* SRGDiagnostics.h in Headers */,
+				6F126F462126CF2900158646 /* SRGTimeMeasurement.h in Headers */,
 				6F0EB54820FC8049009C02CF /* NSBundle+SRGDiagnostics.h in Headers */,
 				6F1EA3082126C92E0095820B /* SRGDiagnosticsService.h in Headers */,
 			);
@@ -172,6 +179,7 @@
 			files = (
 				6F0EB54720FC8049009C02CF /* NSBundle+SRGDiagnostics.m in Sources */,
 				6F126F432126C9E700158646 /* SRGDiagnosticReport.m in Sources */,
+				6F126F472126CF2900158646 /* SRGTimeMeasurement.m in Sources */,
 				6F0EB54320FC7FF4009C02CF /* SRGDiagnostics.m in Sources */,
 				6F1EA3092126C92E0095820B /* SRGDiagnosticsService.m in Sources */,
 			);

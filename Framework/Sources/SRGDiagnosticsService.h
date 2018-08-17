@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SRGDiagnosticsService *)sharedService;
 
-- (SRGDiagnosticReport *)reportForIdentifier:(NSString *)identifier;
+- (SRGDiagnosticReport *)reportWithIdentifier:(NSString *)identifier;
 
 @end
 

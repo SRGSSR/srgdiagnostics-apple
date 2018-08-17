@@ -4,15 +4,16 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGTimeMeasurement.h"
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SRGDiagnosticReport : NSObject
+@interface SRGTimeMeasurement : NSObject
 
-- (SRGTimeMeasurement *)timeMeasurementWithIdentifier:(NSString *)identifier;
+- (void)start;
+- (void)stop;
+
+- (void)measure:(void (^)(void))block;
 
 @end
 

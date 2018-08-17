@@ -9,6 +9,7 @@
 // Public headers.
 #import "SRGDiagnosticReport.h"
 #import "SRGDiagnosticsService.h"
+#import "SRGTimeMeasurement.h"
 
 // Official version number.
 FOUNDATION_EXPORT NSString *SRGDiagnosticsMarketingVersion(void);

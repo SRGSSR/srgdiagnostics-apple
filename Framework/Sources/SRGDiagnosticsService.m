@@ -14,6 +14,18 @@
 
 @implementation SRGDiagnosticsService
 
+#pragma mark Class methods
+
++ (SRGDiagnosticsService *)sharedService
+{
+    static dispatch_once_t s_onceToken;
+    static SRGDiagnosticsService *s_sharedService;
+    dispatch_once(&s_onceToken, ^{
+        s_sharedService = [[SRGDiagnosticsService alloc] init];
+    });
+    return s_sharedService;
+}
+
 #pragma mark Object lifecycle
 
 - (instancetype)init
@@ -26,7 +38,7 @@
 
 #pragma mark Reports
 
-- (SRGDiagnosticReport *)reportForIdentifier:(NSString *)identifier
+- (SRGDiagnosticReport *)reportWithIdentifier:(NSString *)identifier
 {
     SRGDiagnosticReport *report = self.reports[identifier];
     if (! report) {
