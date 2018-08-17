@@ -40,12 +40,14 @@
 
 - (SRGDiagnosticReport *)reportWithIdentifier:(NSString *)identifier
 {
-    SRGDiagnosticReport *report = self.reports[identifier];
-    if (! report) {
-        report = [[SRGDiagnosticReport alloc] init];
-        self.reports[identifier] = report;
+    @synchronized(self.reports) {
+        SRGDiagnosticReport *report = self.reports[identifier];
+        if (! report) {
+            report = [[SRGDiagnosticReport alloc] init];
+            self.reports[identifier] = report;
+        }
+        return report;
     }
-    return report;
 }
 
 @end

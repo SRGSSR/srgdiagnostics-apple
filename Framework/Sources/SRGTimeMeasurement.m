@@ -17,20 +17,17 @@
 
 - (void)start
 {
-    self.startDate = [NSDate date];
-    self.endDate = nil;
+    @synchronized(self) {
+        self.startDate = [NSDate date];
+        self.endDate = nil;
+    }
 }
 
 - (void)stop
 {
-    self.endDate = [NSDate date];
-}
-
-- (void)measure:(void (^)(void))block
-{
-    [self start];
-    block();
-    [self stop];
+    @synchronized(self) {
+        self.endDate = [NSDate date];
+    }
 }
 
 @end

@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// TODO: Thread-safety considerations
 @interface SRGDiagnosticsService : NSObject
 
 + (SRGDiagnosticsService *)sharedService;

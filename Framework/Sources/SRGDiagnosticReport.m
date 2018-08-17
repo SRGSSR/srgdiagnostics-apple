@@ -6,6 +6,8 @@
 
 #import "SRGDiagnosticReport.h"
 
+#import "SRGTimeMeasurement.h"
+
 @interface SRGDiagnosticReport ()
 
 @property (nonatomic) NSMutableDictionary<NSString *, id> *values;
@@ -32,57 +34,87 @@
 
 - (void)setBool:(BOOL)value forKey:(NSString *)key
 {
-    self.values[key] = @(value);
+    @synchronized(self.values) {
+        self.values[key] = @(value);
+    }
 }
 
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key
 {
-    self.values[key] = @((NSInteger)value);
+    @synchronized(self.values) {
+        self.values[key] = @((NSInteger)value);
+    }
 }
 
 - (void)setFloat:(float)value forKey:(NSString *)key
 {
-    self.values[key] = @((float)value);
+    @synchronized(self.values) {
+        self.values[key] = @((float)value);
+    }
 }
 
 - (void)setDouble:(double)value forKey:(NSString *)key
 {
-    self.values[key] = @((double)value);
+    @synchronized(self.values) {
+        self.values[key] = @((double)value);
+    }
 }
 
 - (void)setString:(NSString *)string forKey:(NSString *)key
 {
-    self.values[key] = string;
+    @synchronized(self.values) {
+        self.values[key] = string;
+    }
 }
 
 - (void)setNumber:(NSNumber *)number forKey:(NSString *)key
 {
-    self.values[key] = number;
+    @synchronized(self.values) {
+        self.values[key] = number;
+    }
 }
 
 - (void)setURL:(NSURL *)URL forKey:(NSString *)key
 {
-    self.values[key] = URL.absoluteString;
+    @synchronized(self.values) {
+        self.values[key] = URL.absoluteString;
+    }
 }
+
+- (void)startTimeMeasurementWithIdentifier:(NSString *)identifier
+{
+    [[self timeMeasurementWithIdentifier:identifier] start];
+}
+
+- (void)stopTimeMeasurementWithIdentifier:(NSString *)identifier
+{
+    [[self timeMeasurementWithIdentifier:identifier] stop];
+}
+
+#pragma mark Time measurements
 
 - (SRGTimeMeasurement *)timeMeasurementWithIdentifier:(NSString *)identifier
 {
-    SRGTimeMeasurement *timeMeasurement = self.timeMeasurements[identifier];
-    if (! timeMeasurement) {
-        timeMeasurement = [[SRGTimeMeasurement alloc] init];
-        self.timeMeasurements[identifier] = timeMeasurement;
+    @synchronized(self.timeMeasurements) {
+        SRGTimeMeasurement *timeMeasurement = self.timeMeasurements[identifier];
+        if (! timeMeasurement) {
+            timeMeasurement = [[SRGTimeMeasurement alloc] init];
+            self.timeMeasurements[identifier] = timeMeasurement;
+        }
+        return timeMeasurement;
     }
-    return timeMeasurement;
 }
 
 - (SRGDiagnosticReport *)subreportWithIdentifier:(NSString *)identifier
 {
-    SRGDiagnosticReport *subreport = self.subreports[identifier];
-    if (! subreport) {
-        subreport = [[SRGDiagnosticReport alloc] init];
-        self.subreports[identifier] = subreport;
+    @synchronized(self.subreports) {
+        SRGDiagnosticReport *subreport = self.subreports[identifier];
+        if (! subreport) {
+            subreport = [[SRGDiagnosticReport alloc] init];
+            self.subreports[identifier] = subreport;
+        }
+        return subreport;
     }
-    return subreport;
 }
 
 @end

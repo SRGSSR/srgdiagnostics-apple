@@ -4,8 +4,6 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGTimeMeasurement.h"
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setURL:(NSURL *)URL forKey:(NSString *)key;
 
-- (SRGTimeMeasurement *)timeMeasurementWithIdentifier:(NSString *)identifier;
+- (void)startTimeMeasurementWithIdentifier:(NSString *)identifier;
+- (void)stopTimeMeasurementWithIdentifier:(NSString *)identifier;
+
 - (SRGDiagnosticReport *)subreportWithIdentifier:(NSString *)identifier;
 
 @end

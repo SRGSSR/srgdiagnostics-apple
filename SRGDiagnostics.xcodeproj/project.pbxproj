@@ -13,7 +13,7 @@
 		6F0EB54820FC8049009C02CF /* NSBundle+SRGDiagnostics.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F0EB54620FC8049009C02CF /* NSBundle+SRGDiagnostics.h */; };
 		6F126F422126C9E700158646 /* SRGDiagnosticReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F126F402126C9E700158646 /* SRGDiagnosticReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F126F432126C9E700158646 /* SRGDiagnosticReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F412126C9E700158646 /* SRGDiagnosticReport.m */; };
-		6F126F462126CF2900158646 /* SRGTimeMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F126F442126CF2900158646 /* SRGTimeMeasurement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F126F462126CF2900158646 /* SRGTimeMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F126F442126CF2900158646 /* SRGTimeMeasurement.h */; };
 		6F126F472126CF2900158646 /* SRGTimeMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F452126CF2900158646 /* SRGTimeMeasurement.m */; };
 		6F126F4F2126E34300158646 /* SRGDiagnosticReportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F126F4E2126E34300158646 /* SRGDiagnosticReportTestCase.m */; };
 		6F126F512126E34300158646 /* SRGDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0EB53120FC7F58009C02CF /* SRGDiagnostics.framework */; };
