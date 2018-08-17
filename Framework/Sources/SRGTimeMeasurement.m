@@ -15,6 +15,17 @@
 
 @implementation SRGTimeMeasurement
 
+#pragma mark Getters and setters
+
+- (NSTimeInterval)timeInterval
+{
+    @synchronized(self) {
+        return [self.endDate timeIntervalSinceDate:self.endDate];
+    }
+}
+
+#pragma mark Measurement
+
 - (void)start
 {
     @synchronized(self) {
@@ -28,6 +39,17 @@
     @synchronized(self) {
         self.endDate = [NSDate date];
     }
+}
+
+#pragma mark Description
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p; startDate = %@; endDate = %@>",
+            [self class],
+            self,
+            self.startDate,
+            self.endDate];
 }
 
 @end

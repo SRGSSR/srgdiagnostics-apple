@@ -54,6 +54,7 @@
 		6F126F4E2126E34300158646 /* SRGDiagnosticReportTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticReportTestCase.m; sourceTree = "<group>"; };
 		6F126F502126E34300158646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F126F5D2126E79E00158646 /* SRGDiagnostics.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGDiagnostics.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F126F682126FB9900158646 /* SRGDiagnosticReport+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SRGDiagnosticReport+Private.h"; sourceTree = "<group>"; };
 		6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticsService.h; sourceTree = "<group>"; };
 		6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,12 +117,13 @@
 			isa = PBXGroup;
 			children = (
 				6F0EB54420FC8049009C02CF /* Helpers */,
-				6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */,
-				6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */,
-				6F0EB53E20FC7FA9009C02CF /* SRGDiagnostics.h */,
-				6F0EB54220FC7FF4009C02CF /* SRGDiagnostics.m */,
 				6F126F402126C9E700158646 /* SRGDiagnosticReport.h */,
 				6F126F412126C9E700158646 /* SRGDiagnosticReport.m */,
+				6F126F682126FB9900158646 /* SRGDiagnosticReport+Private.h */,
+				6F0EB53E20FC7FA9009C02CF /* SRGDiagnostics.h */,
+				6F0EB54220FC7FF4009C02CF /* SRGDiagnostics.m */,
+				6F1EA3062126C92E0095820B /* SRGDiagnosticsService.h */,
+				6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */,
 				6F126F442126CF2900158646 /* SRGTimeMeasurement.h */,
 				6F126F452126CF2900158646 /* SRGTimeMeasurement.m */,
 			);

@@ -42,21 +42,21 @@
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key
 {
     @synchronized(self.values) {
-        self.values[key] = @((NSInteger)value);
+        self.values[key] = @(value);
     }
 }
 
 - (void)setFloat:(float)value forKey:(NSString *)key
 {
     @synchronized(self.values) {
-        self.values[key] = @((float)value);
+        self.values[key] = @(value);
     }
 }
 
 - (void)setDouble:(double)value forKey:(NSString *)key
 {
     @synchronized(self.values) {
-        self.values[key] = @((double)value);
+        self.values[key] = @(value);
     }
 }
 
@@ -115,6 +115,46 @@
         }
         return subreport;
     }
+}
+
+#pragma mark JSON serialization
+
+- (NSDictionary *)timeMeasurementsDictionary
+{
+    @synchronized(self.timeMeasurements) {
+        NSMutableDictionary<NSString *, id> *dictionary = [NSMutableDictionary dictionary];
+        [self.timeMeasurements enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGTimeMeasurement * _Nonnull timeMeasurement, BOOL * _Nonnull stop) {
+            dictionary[key] = @(timeMeasurement.timeInterval * 1000.);
+        }];
+        return dictionary;
+    }
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    NSMutableDictionary *dictionary = [self.values mutableCopy];
+    [dictionary addEntriesFromDictionary:[self timeMeasurementsDictionary]];
+    [self.subreports enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticReport * _Nonnull subreport, BOOL * _Nonnull stop) {
+        dictionary[key] = [subreport JSONDictionary];
+    }];
+    return [dictionary copy];
+}
+
+- (NSData *)JSONData
+{
+    return [NSJSONSerialization dataWithJSONObject:[self JSONDictionary] options:0 error:NULL];
+}
+
+#pragma mark Description
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p; values = %@; timeMeasurements = %@; subreports: %@>",
+            [self class],
+            self,
+            self.values,
+            self.timeMeasurements,
+            self.subreports];
 }
 
 @end

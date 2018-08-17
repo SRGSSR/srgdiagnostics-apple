@@ -8,12 +8,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SRGTimeMeasurement : NSObject
+@interface SRGDiagnosticReport (Private)
 
-- (void)start;
-- (void)stop;
-
-- (NSTimeInterval)timeInterval;
+- (NSDictionary *)JSONDictionary;
 
 @end
 
