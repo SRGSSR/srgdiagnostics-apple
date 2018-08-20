@@ -8,6 +8,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Undefined time interval (measurement not started or not finished yet).
+ */
 static NSTimeInterval const SRGTimeMeasurementUndefined = -1.;
 
 /**
@@ -16,13 +19,22 @@ static NSTimeInterval const SRGTimeMeasurementUndefined = -1.;
 @interface SRGTimeMeasurement : NSObject
 
 /**
- *  Start / stop a time measurement.
+ *  Start a time measurement.
+ *
+ *  @discussion Until stopped, the measured time is `SRGTimeMeasurementUndefined`. Attempting to start an already started
+ *              measurement does nothing.
  */
 - (void)start;
+
+/**
+ *  Stop a time measurement.
+ *
+ *  @discussion Attempting to stop a non-started measurement does noting.
+ */
 - (void)stop;
 
 /**
- *  The time measurement. `SRGTimeMeasurementUndefined` while invalid.
+ *  The time measurement, or `SRGTimeMeasurementUndefined` if not determined yet.
  */
 - (NSTimeInterval)timeInterval;
 

@@ -30,6 +30,11 @@
 - (void)start
 {
     @synchronized(self) {
+        if (self.startDate) {
+            return;
+        }
+        
+        self.timeInterval = SRGTimeMeasurementUndefined;
         self.startDate = [NSDate date];
     }
 }
@@ -37,7 +42,11 @@
 - (void)stop
 {
     @synchronized(self) {
-        self.timeInterval = self.startDate ? [NSDate.date timeIntervalSinceDate:self.startDate] : SRGTimeMeasurementUndefined;
+        if (! self.startDate) {
+            return;
+        }
+        
+        self.timeInterval = [NSDate.date timeIntervalSinceDate:self.startDate];
         self.startDate = nil;
     }
 }

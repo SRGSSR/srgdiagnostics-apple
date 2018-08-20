@@ -21,6 +21,7 @@
 		6F1EA3092126C92E0095820B /* SRGDiagnosticsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EA3072126C92E0095820B /* SRGDiagnosticsService.m */; };
 		6FC45897212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC45895212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m */; };
 		6FC45898212AA3CD007CAA97 /* SRGDiagnosticReportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC45896212AA3CD007CAA97 /* SRGDiagnosticReportTestCase.m */; };
+		6FC4589A212AB5E8007CAA97 /* SRGTimeMeasurementTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC45899212AB5E8007CAA97 /* SRGTimeMeasurementTestCase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		6F673C8E212A86D5006C42AE /* SRGDiagnosticsService+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SRGDiagnosticsService+Private.h"; sourceTree = "<group>"; };
 		6FC45895212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsServiceTestCase.m; sourceTree = "<group>"; };
 		6FC45896212AA3CD007CAA97 /* SRGDiagnosticReportTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticReportTestCase.m; sourceTree = "<group>"; };
+		6FC45899212AB5E8007CAA97 /* SRGTimeMeasurementTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGTimeMeasurementTestCase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,8 +157,9 @@
 		6FC45894212AA3CD007CAA97 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6FC45895212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m */,
 				6FC45896212AA3CD007CAA97 /* SRGDiagnosticReportTestCase.m */,
+				6FC45895212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m */,
+				6FC45899212AB5E8007CAA97 /* SRGTimeMeasurementTestCase.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FC45897212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m in Sources */,
+				6FC4589A212AB5E8007CAA97 /* SRGTimeMeasurementTestCase.m in Sources */,
 				6FC45898212AA3CD007CAA97 /* SRGDiagnosticReportTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
