@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Trigger submission of pending reports.
  *
- *  @discussion Pending reports are automatically submitted on a regular basis.
+ *  @discussion Reports are automatically submitted on a regular basis. Call this method to trigger submission earlier.
  */
 - (void)submitPendingReports;
 

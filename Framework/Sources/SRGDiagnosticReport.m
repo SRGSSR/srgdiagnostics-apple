@@ -41,9 +41,9 @@
 
 #pragma mark Submission
 
-- (void)submit
+- (void)finish
 {
-    [self.diagnosticsService submitReport:self];
+    [self.diagnosticsService prepareToSubmitReport:self];
 }
 
 @end

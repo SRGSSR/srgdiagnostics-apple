@@ -14,12 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SRGDiagnosticReport : SRGDiagnosticInformation
 
 /**
- *  Submit the report with the associated service.
+ *  Finish the report.
  *
- *  @discussion A submitted report cannot be changed afterwards (but can be updated and submitted again). The previous
- *              submission is not cancelled.
+ *  @discussion A finished report cannot be changed afterwards.
  */
-- (void)submit;
+- (void)finish;
 
 @end
 

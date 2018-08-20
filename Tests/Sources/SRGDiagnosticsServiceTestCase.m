@@ -54,7 +54,9 @@
     
     SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
-    [report submit];
+    [report finish];
+    
+    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -85,9 +87,16 @@
     
     SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
-    [report submit];
+    [report finish];
+    
+    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
+- (void)testUnfinishedReportSubmission
+{
+    
 }
 
 - (void)testReportFailedFirstSubmission
@@ -103,7 +112,9 @@
     
     SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
-    [report submit];
+    [report finish];
+    
+    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
     
@@ -114,7 +125,7 @@
         [expectation2 fulfill];
     }];
     
-    [report submit];
+    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -132,7 +143,9 @@
     
     SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
-    [report submit];
+    [report finish];
+    
+    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
     
@@ -155,5 +168,6 @@
 //   - Multiple submissions
 //   - Create new report with same name while another one with the same name is still pending
 //   - Add global information support to service
+//   - Test periodic submission
 
 @end

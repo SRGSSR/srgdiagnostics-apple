@@ -90,7 +90,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 
 #pragma mark Submission
 
-- (void)submitReport:(SRGDiagnosticReport *)report
+- (void)prepareToSubmitReport:(SRGDiagnosticReport *)report
 {
     @synchronized(self) {
         NSString *identifier = [self.reports allKeysForObject:report].firstObject;
@@ -98,7 +98,6 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
             [self.reports removeObjectForKey:identifier];
             [self.pendingReports addObject:[report copy]];
         }
-        [self submitPendingReports];
     }
 }
 

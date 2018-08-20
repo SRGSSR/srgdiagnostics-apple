@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Submit the specified report.
  */
-- (void)submitReport:(SRGDiagnosticReport *)report;
+- (void)prepareToSubmitReport:(SRGDiagnosticReport *)report;
 
 @end
 
