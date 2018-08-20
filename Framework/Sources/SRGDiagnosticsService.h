@@ -43,9 +43,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Return a report with the specified name. An empty report is created if none existed for the specified name.
  *
- *  @dicussion Call the report `-submit` method to finish and submit it.
+ *  @discussion Call the report `-submit` method to finish and submit it.
  */
 - (SRGDiagnosticReport *)reportWithName:(NSString *)name;
+
+/**
+ *  Trigger submission of pending reports.
+ *
+ *  @discussion Pending reports are automatically submitted on a regular basis.
+ */
+- (void)submitPendingReports;
 
 @end
 

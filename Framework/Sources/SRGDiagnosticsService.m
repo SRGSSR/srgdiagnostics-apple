@@ -96,7 +96,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         NSString *identifier = [self.reports allKeysForObject:report].firstObject;
         if (identifier) {
             [self.reports removeObjectForKey:identifier];
-            [self.pendingReports addObject:report];
+            [self.pendingReports addObject:[report copy]];
         }
         [self submitPendingReports];
     }

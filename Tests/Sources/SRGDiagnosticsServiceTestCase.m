@@ -121,11 +121,36 @@
 
 - (void)testReportImmutabilityAfterSubmission
 {
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"First submission block called"];
     
+    NSString *name = NSUUID.UUID.UUIDString;
+    
+    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(NO);
+        [expectation1 fulfill];
+    }];
+    
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    [report setString:@"My report" forKey:@"title"];
+    [report submit];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+    
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"First submission block called"];
+    
+    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        XCTAssertEqualObjects(JSONDictionary[@"title"], @"My report");
+        completionBlock(YES);
+        [expectation2 fulfill];
+    }];
+    
+    [report setString:@"Modified title" forKey:@"title"];
+    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
 // TODO: Tests above:
-//   - No change after submission (deep copy)
 //   - Several reports (whose submission never complete) with the same name (all must be added to pending items)
 //   - Multiple submissions
 //   - Create new report with same name while another one with the same name is still pending

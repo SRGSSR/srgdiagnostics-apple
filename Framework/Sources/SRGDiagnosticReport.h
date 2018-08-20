@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Submit the report with the associated service.
+ *
+ *  @discussion A submitted report cannot be changed afterwards (but can be updated and submitted again). The previous
+ *              submission is not cancelled.
  */
 - (void)submit;
 
