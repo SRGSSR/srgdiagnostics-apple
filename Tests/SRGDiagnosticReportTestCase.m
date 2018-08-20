@@ -51,6 +51,14 @@
     XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
 }
 
+- (void)testUnstoppedTimeMeasurement
+{
+    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    [report startTimeMeasurementWithIdentifier:@"time"];
+    NSDictionary *expectedDictionary = @{ @"time" : @0. };
+    XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
+}
+
 - (void)testSubreport
 {
     SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
