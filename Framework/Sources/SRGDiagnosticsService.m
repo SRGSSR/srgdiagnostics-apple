@@ -6,9 +6,19 @@
 
 #import "SRGDiagnosticsService.h"
 
+#import "SRGDiagnosticReport+Private.h"
+
+static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsServices;
+
 @interface SRGDiagnosticsService ()
 
+@property (nonatomic, copy) void (^submissionBlock)(NSDictionary *JSONDictionary, void (^completionBlock)(BOOL success));
+
 @property (nonatomic) NSMutableDictionary<NSString *, SRGDiagnosticReport *> *reports;
+@property (nonatomic) NSMutableArray<SRGDiagnosticReport *> *pendingReports;
+
+@property (nonatomic) NSTimer *timer;
+@property (nonatomic, getter=isSubmitting) BOOL submitting;
 
 @end
 
@@ -16,38 +26,121 @@
 
 #pragma mark Class methods
 
-+ (SRGDiagnosticsService *)sharedService
++ (void)registerServiceWithName:(NSString *)name submissionBlock:(void (^)(NSDictionary * _Nonnull, void (^ _Nonnull)(BOOL)))submissionBlock
 {
-    static dispatch_once_t s_onceToken;
-    static SRGDiagnosticsService *s_sharedService;
-    dispatch_once(&s_onceToken, ^{
-        s_sharedService = [[SRGDiagnosticsService alloc] init];
-    });
-    return s_sharedService;
+    @synchronized(s_diagnosticsServices) {
+        static dispatch_once_t s_onceToken;
+        dispatch_once(&s_onceToken, ^{
+            s_diagnosticsServices = [NSMutableDictionary dictionary];
+        });
+        s_diagnosticsServices[name] = [[SRGDiagnosticsService alloc] initWithSubmissionBlock:submissionBlock];
+    }
+}
+
++ (SRGDiagnosticsService *)serviceWithName:(NSString *)name
+{
+    @synchronized(s_diagnosticsServices) {
+        return s_diagnosticsServices[name];
+    }
 }
 
 #pragma mark Object lifecycle
 
-- (instancetype)init
+- (instancetype)initWithSubmissionBlock:(void (^)(NSDictionary * _Nonnull, void (^ _Nonnull)(BOOL)))submissionBlock
 {
     if (self = [super init]) {
+        self.submissionBlock = submissionBlock;
         self.reports = [NSMutableDictionary dictionary];
+        self.pendingReports = [NSMutableArray array];
+        
+        self.timer = [NSTimer timerWithTimeInterval:30. target:self selector:@selector(submitPendingReports:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     }
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
+- (instancetype)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return [self initWithSubmissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL success)) {
+        completionBlock(YES);
+    }];
+}
+
+#pragma clang diagnostic pop
+
+#pragma mark Getters and setters
+
+- (void)setTimer:(NSTimer *)timer
+{
+    [_timer invalidate];
+    _timer = timer;
+}
+
 #pragma mark Reports
 
-- (SRGDiagnosticReport *)reportWithIdentifier:(NSString *)identifier
+- (SRGDiagnosticReport *)reportWithName:(NSString *)name
 {
-    @synchronized(self.reports) {
-        SRGDiagnosticReport *report = self.reports[identifier];
+    @synchronized(self) {
+        SRGDiagnosticReport *report = self.reports[name];
         if (! report) {
-            report = [[SRGDiagnosticReport alloc] init];
-            self.reports[identifier] = report;
+            report = [[SRGDiagnosticReport alloc] initWithDiagnosticsService:self];
+            self.reports[name] = report;
         }
         return report;
     }
+}
+
+#pragma mark Submission
+
+- (void)submitReport:(SRGDiagnosticReport *)report
+{
+    @synchronized(self) {
+        NSString *identifier = [self.reports allKeysForObject:report].firstObject;
+        if (! identifier) {
+            return;
+        }
+        
+        [self.reports removeObjectForKey:identifier];
+        [self.pendingReports addObject:report];
+        [self submitPendingReports];
+    }
+}
+
+- (void)submitPendingReports
+{
+    @synchronized(self) {
+        if (self.submitting) {
+            return;
+        }
+        
+        self.submitting = YES;
+        
+        __block NSUInteger processedReports = 0;
+        NSArray<SRGDiagnosticReport *> *pendingReports = [self.pendingReports copy];
+        for (SRGDiagnosticReport *report in pendingReports) {
+            self.submissionBlock([report JSONDictionary], ^(BOOL success) {
+                @synchronized(self) {
+                    [self.pendingReports removeObject:report];
+                    
+                    ++processedReports;
+                    if (processedReports == pendingReports.count) {
+                        self.submitting = NO;
+                    }
+                }
+            });
+        }
+    }
+}
+
+#pragma mark Timers
+
+- (void)submitPendingReports:(NSTimer *)timer
+{
+    [self submitPendingReports];
 }
 
 @end

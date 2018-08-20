@@ -15,15 +15,26 @@
 
 @implementation SRGDiagnosticReportTestCase
 
+#pragma mark Setup and teardown
+
+- (void)setUp
+{
+    [SRGDiagnosticsService registerServiceWithName:@"test" submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL success)) {
+        completionBlock(YES);
+    }];
+}
+
+#pragma mark Tests
+
 - (void)testEmptyReport
 {
-    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:@"test"] reportWithName:@"report"];
     XCTAssertEqualObjects([report JSONDictionary], @{});
 }
 
 - (void)testFilledReport
 {
-    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:@"test"] reportWithName:@"report"];
     [report setBool:YES forKey:@"boolean"];
     [report setInteger:1012 forKey:@"integer"];
     [report setFloat:36.5678f forKey:@"float"];
@@ -43,27 +54,27 @@
 
 - (void)testTimeMeasurement
 {
-    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
-    [report startTimeMeasurementWithIdentifier:@"time"];
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:@"test"] reportWithName:@"report"];
+    [report startTimeMeasurementForKey:@"time"];
     [NSThread sleepForTimeInterval:1.];
-    [report stopTimeMeasurementWithIdentifier:@"time"];
+    [report stopTimeMeasurementForKey:@"time"];
     NSDictionary *expectedDictionary = @{ @"time" : @1000. };
     XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
 }
 
 - (void)testUnstoppedTimeMeasurement
 {
-    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
-    [report startTimeMeasurementWithIdentifier:@"time"];
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:@"test"] reportWithName:@"report"];
+    [report startTimeMeasurementForKey:@"time"];
     NSDictionary *expectedDictionary = @{ @"time" : @0. };
     XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
 }
 
 - (void)testSubreport
 {
-    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:@"test"] reportWithName:@"report"];
     [report setString:@"parent" forKey:@"title"];
-    SRGDiagnosticReport *subreport = [report subreportWithIdentifier:@"subreport"];
+    SRGDiagnosticReport *subreport = [report subreportForKey:@"subreport"];
     [subreport setString:@"child" forKey:@"subtitle"];
     NSDictionary *expectedDictionary = @{ @"title" : @"parent",
                                           @"subreport" : @{ @"subtitle" : @"child" } };
@@ -72,7 +83,7 @@
 
 - (void)testPlayReport
 {
-    SRGDiagnosticReport *report = [[SRGDiagnosticReport alloc] init];
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:@"test"] reportWithName:@"report"];
     [report setString:@"Letterbox/iOS/1.9" forKey:@"player"];
     [report setString:@"iPhone 6" forKey:@"device"];
     [report setString:@"urn:rts:video:12345" forKey:@"urn"];
@@ -80,23 +91,23 @@
     [report setString:@"3g" forKey:@"networkType"];
     [report setString:@"success" forKey:@"result"];
     
-    SRGDiagnosticReport *ILErrorReport = [report subreportWithIdentifier:@"ilError"];
+    SRGDiagnosticReport *ILErrorReport = [report subreportForKey:@"ilError"];
     [ILErrorReport setString:@"GEOBLOCK" forKey:@"blockReason"];
     [ILErrorReport setString:@"111 222" forKey:@"varnish"];
     [ILErrorReport setBool:YES forKey:@"playableAbroad"];
     
-    SRGDiagnosticReport *networkErrorReport = [report subreportWithIdentifier:@"networkError"];
+    SRGDiagnosticReport *networkErrorReport = [report subreportForKey:@"networkError"];
     [networkErrorReport setString:@"https://domain.com/resource/path" forKey:@"url"];
     [networkErrorReport setInteger:404 forKey:@"responseCode"];
     [networkErrorReport setString:@"222 333" forKey:@"varnish"];
     [networkErrorReport setString:@"A network error has been encountered" forKey:@"message"];
     
-    SRGDiagnosticReport *parsingErrorReport = [report subreportWithIdentifier:@"parsingError"];
+    SRGDiagnosticReport *parsingErrorReport = [report subreportForKey:@"parsingError"];
     [parsingErrorReport setString:@"https://domain.com/resource/path" forKey:@"url"];
     [parsingErrorReport setInteger:12 forKey:@"line"];
     [parsingErrorReport setString:@"A parsing error has been encountered" forKey:@"message"];
     
-    SRGDiagnosticReport *playerErrorReport = [report subreportWithIdentifier:@"playerError"];
+    SRGDiagnosticReport *playerErrorReport = [report subreportForKey:@"playerError"];
     [playerErrorReport setString:@"https://domain.com/resource/path" forKey:@"url"];
     [playerErrorReport setString:@"1000kbps" forKey:@"variant"];
     [playerErrorReport setString:@"https://domain.com/license" forKey:@"licenseUrl"];
@@ -104,27 +115,27 @@
     
     [report setBool:YES forKey:@"noPlayableResourceFound"];
     
-    SRGDiagnosticReport *timeReport = [report subreportWithIdentifier:@"time"];
+    SRGDiagnosticReport *timeReport = [report subreportForKey:@"time"];
     
-    [timeReport startTimeMeasurementWithIdentifier:@"clickToPlay"];
+    [timeReport startTimeMeasurementForKey:@"clickToPlay"];
     [NSThread sleepForTimeInterval:0.5];
-    [timeReport stopTimeMeasurementWithIdentifier:@"clickToPlay"];
+    [timeReport stopTimeMeasurementForKey:@"clickToPlay"];
     
-    [timeReport startTimeMeasurementWithIdentifier:@"il"];
+    [timeReport startTimeMeasurementForKey:@"il"];
     [NSThread sleepForTimeInterval:0.6];
-    [timeReport stopTimeMeasurementWithIdentifier:@"il"];
+    [timeReport stopTimeMeasurementForKey:@"il"];
     
-    [timeReport startTimeMeasurementWithIdentifier:@"token"];
+    [timeReport startTimeMeasurementForKey:@"token"];
     [NSThread sleepForTimeInterval:0.7];
-    [timeReport stopTimeMeasurementWithIdentifier:@"token"];
+    [timeReport stopTimeMeasurementForKey:@"token"];
     
-    [timeReport startTimeMeasurementWithIdentifier:@"media"];
+    [timeReport startTimeMeasurementForKey:@"media"];
     [NSThread sleepForTimeInterval:0.8];
-    [timeReport stopTimeMeasurementWithIdentifier:@"media"];
+    [timeReport stopTimeMeasurementForKey:@"media"];
     
-    [timeReport startTimeMeasurementWithIdentifier:@"drm"];
+    [timeReport startTimeMeasurementForKey:@"drm"];
     [NSThread sleepForTimeInterval:0.9];
-    [timeReport stopTimeMeasurementWithIdentifier:@"drm"];
+    [timeReport stopTimeMeasurementForKey:@"drm"];
     
     NSDictionary *expectedDictionary = @{ @"player" : @"Letterbox/iOS/1.9",
                                           @"device" : @"iPhone 6",
@@ -155,5 +166,13 @@
                                           };
     XCTAssertEqualObjects([report JSONDictionary], expectedDictionary);
 }
+
+// TODO: Test:
+//   - Copy (also with nested reports)
+//   - No change after submission (deep copy)
+//   - Several reports (whose submission never complete) with the same name (all must be added to pending items)
+//   - Multiple submissions
+//   - Create new report with same name while another one with the same name is still pending
+//   - Time measurements: Start / stop; stop only; start only
 
 @end

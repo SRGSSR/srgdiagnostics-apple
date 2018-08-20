@@ -9,19 +9,20 @@
 @interface SRGTimeMeasurement ()
 
 @property (nonatomic) NSDate *startDate;
-@property (nonatomic) NSDate *endDate;
+@property (nonatomic) NSTimeInterval timeInterval;
 
 @end
 
 @implementation SRGTimeMeasurement
 
-#pragma mark Getters and setters
+#pragma mark Object lifecycle
 
-- (NSTimeInterval)timeInterval
+- (instancetype)init
 {
-    @synchronized(self) {
-        return [self.endDate timeIntervalSinceDate:self.startDate];
+    if (self = [super init]) {
+        self.timeInterval = SRGTimeMeasurementUndefined;
     }
+    return self;
 }
 
 #pragma mark Measurement
@@ -30,14 +31,14 @@
 {
     @synchronized(self) {
         self.startDate = [NSDate date];
-        self.endDate = nil;
     }
 }
 
 - (void)stop
 {
     @synchronized(self) {
-        self.endDate = [NSDate date];
+        self.timeInterval = self.startDate ? [NSDate.date timeIntervalSinceDate:self.startDate] : SRGTimeMeasurementUndefined;
+        self.startDate = nil;
     }
 }
 
@@ -45,11 +46,10 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; startDate = %@; endDate = %@>",
+    return [NSString stringWithFormat:@"<%@: %p; timeInterval = %@>",
             [self class],
             self,
-            self.startDate,
-            self.endDate];
+            @(self.timeInterval)];
 }
 
 @end

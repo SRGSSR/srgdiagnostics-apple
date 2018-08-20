@@ -6,9 +6,13 @@
 
 #import "SRGDiagnosticReport.h"
 
+#import "SRGDiagnosticsService.h"
+#import "SRGDiagnosticsService+Private.h"
 #import "SRGTimeMeasurement.h"
 
 @interface SRGDiagnosticReport ()
+
+@property (nonatomic, weak) SRGDiagnosticsService *diagnosticsService;
 
 @property (nonatomic) NSMutableDictionary<NSString *, id> *values;
 @property (nonatomic) NSMutableDictionary<NSString *, SRGTimeMeasurement *> *timeMeasurements;
@@ -20,9 +24,10 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)init
+- (instancetype)initWithDiagnosticsService:(SRGDiagnosticsService *)diagnosticsService;
 {
     if (self = [super init]) {
+        self.diagnosticsService = diagnosticsService;
         self.values = [NSMutableDictionary dictionary];
         self.timeMeasurements = [NSMutableDictionary dictionary];
         self.subreports = [NSMutableDictionary dictionary];
@@ -30,88 +35,98 @@
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
+- (instancetype)init
+{
+    return [self initWithDiagnosticsService:nil];
+}
+
+#pragma clang diagnostic pop
+
 #pragma mark Report data
 
 - (void)setBool:(BOOL)value forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = @(value);
     }
 }
 
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = @(value);
     }
 }
 
 - (void)setFloat:(float)value forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = @(value);
     }
 }
 
 - (void)setDouble:(double)value forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = @(value);
     }
 }
 
 - (void)setString:(NSString *)string forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = string;
     }
 }
 
 - (void)setNumber:(NSNumber *)number forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = number;
     }
 }
 
 - (void)setURL:(NSURL *)URL forKey:(NSString *)key
 {
-    @synchronized(self.values) {
+    @synchronized(self) {
         self.values[key] = URL.absoluteString;
     }
 }
 
-- (void)startTimeMeasurementWithIdentifier:(NSString *)identifier
+- (void)startTimeMeasurementForKey:(NSString *)key
 {
-    [[self timeMeasurementWithIdentifier:identifier] start];
+    [[self timeMeasurementForKey:key] start];
 }
 
-- (void)stopTimeMeasurementWithIdentifier:(NSString *)identifier
+- (void)stopTimeMeasurementForKey:(NSString *)key
 {
-    [[self timeMeasurementWithIdentifier:identifier] stop];
+    [[self timeMeasurementForKey:key] stop];
 }
 
 #pragma mark Time measurements
 
-- (SRGTimeMeasurement *)timeMeasurementWithIdentifier:(NSString *)identifier
+- (SRGTimeMeasurement *)timeMeasurementForKey:(NSString *)key
 {
-    @synchronized(self.timeMeasurements) {
-        SRGTimeMeasurement *timeMeasurement = self.timeMeasurements[identifier];
+    @synchronized(self) {
+        SRGTimeMeasurement *timeMeasurement = self.timeMeasurements[key];
         if (! timeMeasurement) {
             timeMeasurement = [[SRGTimeMeasurement alloc] init];
-            self.timeMeasurements[identifier] = timeMeasurement;
+            self.timeMeasurements[key] = timeMeasurement;
         }
         return timeMeasurement;
     }
 }
 
-- (SRGDiagnosticReport *)subreportWithIdentifier:(NSString *)identifier
+- (SRGDiagnosticReport *)subreportForKey:(NSString *)key
 {
-    @synchronized(self.subreports) {
-        SRGDiagnosticReport *subreport = self.subreports[identifier];
+    @synchronized(self) {
+        SRGDiagnosticReport *subreport = self.subreports[key];
         if (! subreport) {
-            subreport = [[SRGDiagnosticReport alloc] init];
-            self.subreports[identifier] = subreport;
+            subreport = [[SRGDiagnosticReport alloc] initWithDiagnosticsService:nil];
+            self.subreports[key] = subreport;
         }
         return subreport;
     }
@@ -121,7 +136,7 @@
 
 - (NSDictionary *)timeMeasurementsDictionary
 {
-    @synchronized(self.timeMeasurements) {
+    @synchronized(self) {
         NSMutableDictionary<NSString *, id> *dictionary = [NSMutableDictionary dictionary];
         [self.timeMeasurements enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGTimeMeasurement * _Nonnull timeMeasurement, BOOL * _Nonnull stop) {
             dictionary[key] = @(round(timeMeasurement.timeInterval * 1000.));
@@ -132,17 +147,37 @@
 
 - (NSDictionary *)JSONDictionary
 {
-    NSMutableDictionary *dictionary = [self.values mutableCopy];
-    [dictionary addEntriesFromDictionary:[self timeMeasurementsDictionary]];
-    [self.subreports enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticReport * _Nonnull subreport, BOOL * _Nonnull stop) {
-        dictionary[key] = [subreport JSONDictionary];
-    }];
-    return [dictionary copy];
+    @synchronized(self) {
+        NSMutableDictionary *dictionary = [self.values mutableCopy];
+        [dictionary addEntriesFromDictionary:[self timeMeasurementsDictionary]];
+        [self.subreports enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticReport * _Nonnull subreport, BOOL * _Nonnull stop) {
+            dictionary[key] = [subreport JSONDictionary];
+        }];
+        return [dictionary copy];
+    }
 }
 
-- (NSData *)JSONData
+#pragma mark Submission
+
+- (void)submit
 {
-    return [NSJSONSerialization dataWithJSONObject:[self JSONDictionary] options:0 error:NULL];
+    [self.diagnosticsService submitReport:self];
+}
+
+#pragma mark NSCopying protocol
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    SRGDiagnosticReport *diagnosticReport = [[SRGDiagnosticReport alloc] initWithDiagnosticsService:self.diagnosticsService];
+    diagnosticReport.values = [self.values mutableCopy];
+    diagnosticReport.timeMeasurements = [self.timeMeasurements mutableCopy];
+    
+    NSMutableDictionary<NSString *, SRGDiagnosticReport *> *subreports = [NSMutableDictionary dictionary];
+    [diagnosticReport.subreports enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticReport * _Nonnull subreport, BOOL * _Nonnull stop) {
+        subreports[key] = [subreport copy];
+    }];
+    diagnosticReport.subreports = subreports;
+    return diagnosticReport;
 }
 
 #pragma mark Description
