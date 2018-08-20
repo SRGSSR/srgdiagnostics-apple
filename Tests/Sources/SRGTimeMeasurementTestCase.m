@@ -27,7 +27,7 @@
     XCTAssertEqual([timeMeasurement timeInterval], SRGTimeMeasurementUndefined);
     [NSThread sleepForTimeInterval:1.];
     [timeMeasurement stop];
-    XCTAssertTrue(fabs([timeMeasurement timeInterval] - 1.) < 0.1);
+    XCTAssertEqualWithAccuracy([timeMeasurement timeInterval], 1., 0.1);
 }
 
 - (void)testUnstoppedTimeMeasurement
@@ -51,13 +51,13 @@
     XCTAssertEqual([timeMeasurement timeInterval], SRGTimeMeasurementUndefined);
     [NSThread sleepForTimeInterval:1.];
     [timeMeasurement stop];
-    XCTAssertTrue(fabs([timeMeasurement timeInterval] - 1.) < 0.1);
+    XCTAssertEqualWithAccuracy([timeMeasurement timeInterval], 1., 0.1);
     
     [timeMeasurement start];
     XCTAssertEqual([timeMeasurement timeInterval], SRGTimeMeasurementUndefined);
     [NSThread sleepForTimeInterval:1.];
     [timeMeasurement stop];
-    XCTAssertTrue(fabs([timeMeasurement timeInterval] - 1.) < 0.1);
+    XCTAssertEqualWithAccuracy([timeMeasurement timeInterval], 1., 0.1);
 }
 
 - (void)testTimeMeasurementStartedTwice
@@ -68,7 +68,7 @@
     [timeMeasurement start];
     [NSThread sleepForTimeInterval:1.];
     [timeMeasurement stop];
-    XCTAssertTrue(fabs([timeMeasurement timeInterval] - 2.) < 0.1);
+    XCTAssertEqualWithAccuracy([timeMeasurement timeInterval], 2., 0.1);
 }
 
 - (void)testTimeMeasurementStoppedTwice
@@ -79,7 +79,7 @@
     [timeMeasurement stop];
     [NSThread sleepForTimeInterval:1.];
     [timeMeasurement stop];
-    XCTAssertTrue(fabs([timeMeasurement timeInterval] - 1.) < 0.1);
+    XCTAssertEqualWithAccuracy([timeMeasurement timeInterval], 1., 0.1);
 }
 
 @end
