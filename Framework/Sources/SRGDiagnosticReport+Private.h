@@ -19,12 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Create a report and associate it for submission by the specified service.
  */
-- (instancetype)initWithDiagnosticsService:(nullable SRGDiagnosticsService *)diagnosticsService;
-
-/**
- *  Return report information as a dictionary serializable to JSON.
- */
-- (NSDictionary *)JSONDictionary;
+- (instancetype)initWithDiagnosticsService:(SRGDiagnosticsService *)diagnosticsService;
 
 @end
 
