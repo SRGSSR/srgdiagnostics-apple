@@ -28,7 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
  *                         dictionary which can readily be serialized to JSON. After successful or failed submission
  *                         `completionBlock` must be called so that the service is informed that the report has been
  *                         processed. If the `success` boolean is set to `YES`, the report will be discarded, otherwise
- *                         the service will later attempt to submit it again.
+ *                         the service will later attempt to submit it again. Note that the block can be called on
+ *                         any thread.
  *
  *  @discussion Registration replaces any existing registration for the specified name.
  */

@@ -196,10 +196,4 @@ static BOOL SRGAreDictionariesEqualWithAccuracy(NSDictionary *dictionary, NSDict
     SRGAssertEqualDictionariesWithAccuracy([informationCopy JSONDictionary], expectedDictionary, 10.);
 }
 
-// TODO: Test:
-//   - No change after submission (deep copy)
-//   - Several reports (whose submission never complete) with the same name (all must be added to pending items)
-//   - Multiple submissions
-//   - Create new report with same name while another one with the same name is still pending
-
 @end

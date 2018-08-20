@@ -53,6 +53,8 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         self.reports = [NSMutableDictionary dictionary];
         self.pendingReports = [NSMutableArray array];
         
+        // FIXME: Avoid retain cycle (if service is replaced with another service for the same name, deallocation must correctly
+        //        occur)
         self.timer = [NSTimer timerWithTimeInterval:30. target:self selector:@selector(submitPendingReports:) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     }
@@ -100,12 +102,10 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 {
     @synchronized(self) {
         NSString *identifier = [self.reports allKeysForObject:report].firstObject;
-        if (! identifier) {
-            return;
+        if (identifier) {
+            [self.reports removeObjectForKey:identifier];
+            [self.pendingReports addObject:report];
         }
-        
-        [self.reports removeObjectForKey:identifier];
-        [self.pendingReports addObject:report];
         [self submitPendingReports];
     }
 }
@@ -124,7 +124,9 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         for (SRGDiagnosticReport *report in pendingReports) {
             self.submissionBlock([report JSONDictionary], ^(BOOL success) {
                 @synchronized(self) {
-                    [self.pendingReports removeObject:report];
+                    if (success) {
+                        [self.pendingReports removeObject:report];
+                    }
                     
                     ++processedReports;
                     if (processedReports == pendingReports.count) {
