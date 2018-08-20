@@ -55,10 +55,10 @@
 {
     SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
     [information setString:@"parent" forKey:@"title"];
-    SRGDiagnosticInformation *nestedInformation = [information informationForKey:@"subinfo"];
+    SRGDiagnosticInformation *nestedInformation = [information informationForKey:@"nestedInformation"];
     [nestedInformation setString:@"child" forKey:@"subtitle"];
     NSDictionary *expectedDictionary = @{ @"title" : @"parent",
-                                          @"subinfo" : @{ @"subtitle" : @"child" } };
+                                          @"nestedInformation" : @{ @"subtitle" : @"child" } };
     XCTAssertEqualObjects([information JSONDictionary], expectedDictionary);
 }
 
@@ -148,12 +148,27 @@
     XCTAssertEqualObjects([information JSONDictionary], expectedDictionary);
 }
 
+- (void)testCopy
+{
+    SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
+    [information setString:@"parent" forKey:@"title"];
+    [[information informationForKey:@"nestedInformation"] setString:@"child" forKey:@"title"];
+    
+    [information startTimeMeasurementForKey:@"time"];
+    [NSThread sleepForTimeInterval:1.];
+    [information stopTimeMeasurementForKey:@"time"];
+    
+    SRGDiagnosticInformation *informationCopy = [information copy];
+    NSDictionary *expectedDictionary = @{ @"title" : @"parent",
+                                          @"nestedInformation" : @{ @"subtitle" : @"child" },
+                                          @"time" : @1000. };
+    XCTAssertEqualObjects([informationCopy JSONDictionary], expectedDictionary);
+}
+
 // TODO: Test:
-//   - Copy (also with nested reports)
 //   - No change after submission (deep copy)
 //   - Several reports (whose submission never complete) with the same name (all must be added to pending items)
 //   - Multiple submissions
 //   - Create new report with same name while another one with the same name is still pending
-//   - Time measurements: Start / stop; stop only; start only
 
 @end

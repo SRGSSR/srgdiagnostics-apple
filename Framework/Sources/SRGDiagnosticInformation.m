@@ -30,7 +30,7 @@
     return self;
 }
 
-#pragma mark Report data
+#pragma mark Associated data
 
 - (void)setBool:(BOOL)value forKey:(NSString *)key
 {
@@ -153,11 +153,11 @@
     information.values = [self.values mutableCopy];
     information.timeMeasurements = [self.timeMeasurements mutableCopy];
     
-    NSMutableDictionary<NSString *, SRGDiagnosticInformation *> *subreports = [NSMutableDictionary dictionary];
-    [information.informationEntries enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticInformation * _Nonnull information, BOOL * _Nonnull stop) {
-        subreports[key] = [information copy];
+    NSMutableDictionary<NSString *, SRGDiagnosticInformation *> *informationEntries = [NSMutableDictionary dictionary];
+    [self.informationEntries enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticInformation * _Nonnull information, BOOL * _Nonnull stop) {
+        informationEntries[key] = [information copy];
     }];
-    information.informationEntries = subreports;
+    information.informationEntries = informationEntries;
     return information;
 }
 
@@ -165,7 +165,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; values = %@; timeMeasurements = %@; subreports: %@>",
+    return [NSString stringWithFormat:@"<%@: %p; values = %@; timeMeasurements = %@; informationEntries: %@>",
             [self class],
             self,
             self.values,
