@@ -7,6 +7,37 @@
 #import <SRGDiagnostics/SRGDiagnostics.h>
 #import <XCTest/XCTest.h>
 
+// Compare two dictionaries. Numbers are compared within a given accuracy
+#define SRGAssertEqualDictionariesWithAccuracy(dictionary, referenceDictionary, accuracy) XCTAssertTrue(SRGAreDictionariesEqualWithAccuracy(dictionary, referenceDictionary, accuracy))
+
+static BOOL SRGAreDictionariesEqualWithAccuracy(NSDictionary *dictionary, NSDictionary *referenceDictionary, double accuracy)
+{
+    if (dictionary.count != referenceDictionary.count) {
+        return NO;
+    }
+    
+    for (NSString *key in referenceDictionary.allKeys) {
+        id value = dictionary[key];
+        id referenceValue = referenceDictionary[key];
+        
+        if ([value isKindOfClass:[NSDictionary class]] && [referenceValue isKindOfClass:[NSDictionary class]]) {
+            if (! SRGAreDictionariesEqualWithAccuracy(value, referenceValue, accuracy)) {
+                return NO;
+            }
+        }
+        else if ([value isKindOfClass:[NSNumber class]] && [referenceValue isKindOfClass:[NSNumber class]]) {
+            if (fabs([value doubleValue] - [referenceValue doubleValue]) > accuracy) {
+                return NO;
+            }
+        }
+        else if (! [value isEqual:referenceValue]) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 @interface SRGDiagnosticInformationTestCase : XCTestCase
 
 @end
@@ -48,7 +79,7 @@
     [NSThread sleepForTimeInterval:1.];
     [information stopTimeMeasurementForKey:@"time"];
     NSDictionary *expectedDictionary = @{ @"time" : @1000. };
-    XCTAssertEqualObjects([information JSONDictionary], expectedDictionary);
+    SRGAssertEqualDictionariesWithAccuracy([information JSONDictionary], expectedDictionary, 10.);
 }
 
 - (void)testNestedInformation
@@ -62,7 +93,7 @@
     XCTAssertEqualObjects([information JSONDictionary], expectedDictionary);
 }
 
-- (void)testPlayInformation
+- (void)testPlaySRGInformation
 {
     SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
     [information setString:@"Letterbox/iOS/1.9" forKey:@"player"];
@@ -142,17 +173,17 @@
                                           @"time" : @{ @"clickToPlay" : @500.,
                                                        @"il" : @600.,
                                                        @"token" : @700.,
-                                                       @"player" : @800.,
+                                                       @"media" : @800.,
                                                        @"drm" : @900. }
                                           };
-    XCTAssertEqualObjects([information JSONDictionary], expectedDictionary);
+    SRGAssertEqualDictionariesWithAccuracy([information JSONDictionary], expectedDictionary, 10.);
 }
 
 - (void)testCopy
 {
     SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
     [information setString:@"parent" forKey:@"title"];
-    [[information informationForKey:@"nestedInformation"] setString:@"child" forKey:@"title"];
+    [[information informationForKey:@"nestedInformation"] setString:@"child" forKey:@"subtitle"];
     
     [information startTimeMeasurementForKey:@"time"];
     [NSThread sleepForTimeInterval:1.];
@@ -162,7 +193,7 @@
     NSDictionary *expectedDictionary = @{ @"title" : @"parent",
                                           @"nestedInformation" : @{ @"subtitle" : @"child" },
                                           @"time" : @1000. };
-    XCTAssertEqualObjects([informationCopy JSONDictionary], expectedDictionary);
+    SRGAssertEqualDictionariesWithAccuracy([informationCopy JSONDictionary], expectedDictionary, 10.);
 }
 
 // TODO: Test:
