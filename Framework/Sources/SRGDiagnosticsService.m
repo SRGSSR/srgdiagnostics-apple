@@ -33,7 +33,13 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         dispatch_once(&s_onceToken, ^{
             s_diagnosticsServices = [NSMutableDictionary dictionary];
         });
-        s_diagnosticsServices[name] = [[SRGDiagnosticsService alloc] initWithSubmissionBlock:submissionBlock];
+        
+        SRGDiagnosticsService *diagnosticsService = s_diagnosticsServices[name];
+        if (! diagnosticsService) {
+            diagnosticsService = [[SRGDiagnosticsService alloc] init];
+            s_diagnosticsServices[name] = diagnosticsService;
+        }
+        diagnosticsService.submissionBlock = submissionBlock;
     }
 }
 
@@ -46,10 +52,9 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithSubmissionBlock:(void (^)(NSDictionary * _Nonnull, void (^ _Nonnull)(BOOL)))submissionBlock
+- (instancetype)init
 {
     if (self = [super init]) {
-        self.submissionBlock = submissionBlock;
         self.reports = [NSMutableDictionary dictionary];
         self.pendingReports = [NSMutableArray array];
         
@@ -60,19 +65,6 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
     }
     return self;
 }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-
-- (instancetype)init
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return [self initWithSubmissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL success)) {
-        completionBlock(YES);
-    }];
-}
-
-#pragma clang diagnostic pop
 
 #pragma mark Getters and setters
 

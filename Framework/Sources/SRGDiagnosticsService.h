@@ -47,20 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SRGDiagnosticReport *)reportWithName:(NSString *)name;
 
-/**
- *  Ask the service to submit still pending reports.
- *
- *  @discussion The service periodically submit pending reports. If a submission is already being made, this method
- *              does nothing.
- */
-- (void)submitPendingReports;
-
-@end
-
-@interface SRGDiagnosticsService (Unavailable)
-
-- (instancetype)init NS_UNAVAILABLE;
-
 @end
 
 NS_ASSUME_NONNULL_END
