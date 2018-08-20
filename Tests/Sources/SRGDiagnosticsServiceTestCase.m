@@ -40,7 +40,23 @@
 
 - (void)testRegistrationOverride
 {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
     
+    NSString *name = NSUUID.UUID.UUIDString;
+    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        XCTFail(@"Must not be called since replaced");
+        completionBlock(YES);
+    }];
+    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        [expectation fulfill];
+    }];
+    
+    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    [report setString:@"My report" forKey:@"title"];
+    [report submit];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
 - (void)testReportCreation
