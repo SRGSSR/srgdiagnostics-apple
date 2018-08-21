@@ -11,6 +11,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ *  Standard time intervals for automatic report submission.
+ */
+static const NSTimeInterval SRGDiagnosticsDefaultSubmissionInterval = 30.;
+static const NSTimeInterval SRGDiagnosticsMinimumSubmissionInterval = 10.;
+static const NSTimeInterval SRGDiagnosticsDisabledSubmissionInterval = DBL_MAX;
+
+/**
  *  A diagnostics service provides a way to create and submit diagnostic reports. When creating a service, a block
  *  must be registered to specify how a report must be submitted (e.g. saved to a file, logged to a console or sent
  *  to a webservice).
@@ -48,11 +55,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (SRGDiagnosticReport *)reportWithName:(NSString *)name;
 
 /**
- *  Trigger submission of pending reports.
+ *  Trigger submission of finished reports.
  *
  *  @discussion Reports are automatically submitted on a regular basis. Call this method to trigger submission earlier.
  */
-- (void)submitPendingReports;
+- (void)submitFinishedReports;
+
+/**
+ *  The interval at which finished reports are submitted. Default is `SRGDiagnosticsDefaultSubmissionInterval`. Use
+ *  `SRGDiagnosticsDisabledSubmissionInterval` to disable periodic submission, in which case you are responsible of
+ *  calling the `-submitFinishedReports` method when reports must be submitted.
+ */
+@property (nonatomic) NSTimeInterval submissionInterval;
 
 @end
 

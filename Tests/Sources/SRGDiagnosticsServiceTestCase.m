@@ -56,7 +56,7 @@
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -89,7 +89,7 @@
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -114,7 +114,7 @@
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
     
@@ -125,7 +125,7 @@
         [expectation2 fulfill];
     }];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -145,7 +145,7 @@
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
     
@@ -158,9 +158,14 @@
     }];
     
     [report setString:@"Modified title" forKey:@"title"];
-    [[SRGDiagnosticsService serviceWithName:name] submitPendingReports];
+    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
+- (void)testPeriodicSubmission
+{
+    
 }
 
 // TODO: Tests above:

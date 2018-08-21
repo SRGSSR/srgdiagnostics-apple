@@ -6,6 +6,7 @@
 
 #import "SRGDiagnosticsService.h"
 
+#import "NSTimer+SRGDiagnostics.h"
 #import "SRGDiagnosticReport+Private.h"
 
 static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsServices;
@@ -15,7 +16,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 @property (nonatomic, copy) void (^submissionBlock)(NSDictionary *JSONDictionary, void (^completionBlock)(BOOL success));
 
 @property (nonatomic) NSMutableDictionary<NSString *, SRGDiagnosticReport *> *reports;
-@property (nonatomic) NSMutableArray<SRGDiagnosticReport *> *pendingReports;
+@property (nonatomic) NSMutableArray<SRGDiagnosticReport *> *finishedReports;
 
 @property (nonatomic) NSTimer *timer;
 @property (nonatomic, getter=isSubmitting) BOOL submitting;
@@ -56,12 +57,8 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 {
     if (self = [super init]) {
         self.reports = [NSMutableDictionary dictionary];
-        self.pendingReports = [NSMutableArray array];
-        
-        // FIXME: Avoid retain cycle (if service is replaced with another service for the same name, deallocation must correctly
-        //        occur)
-        self.timer = [NSTimer timerWithTimeInterval:30. target:self selector:@selector(submitPendingReports:) userInfo:nil repeats:YES];
-        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        self.finishedReports = [NSMutableArray array];
+        self.submissionInterval = SRGDiagnosticsDefaultSubmissionInterval;
     }
     return self;
 }
@@ -72,6 +69,20 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 {
     [_timer invalidate];
     _timer = timer;
+}
+
+- (void)setSubmissionInterval:(NSTimeInterval)submissionInterval
+{
+    if (submissionInterval < SRGDiagnosticsMinimumSubmissionInterval) {
+        submissionInterval = SRGDiagnosticsMinimumSubmissionInterval;
+    }
+    
+    _submissionInterval = submissionInterval;
+    
+    __weak __typeof(self) weakSelf = self;
+    self.timer = [NSTimer srgdiagnostics_timerWithTimeInterval:submissionInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [weakSelf submitFinishedReports];
+    }];
 }
 
 #pragma mark Reports
@@ -96,12 +107,12 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         NSString *identifier = [self.reports allKeysForObject:report].firstObject;
         if (identifier) {
             [self.reports removeObjectForKey:identifier];
-            [self.pendingReports addObject:[report copy]];
+            [self.finishedReports addObject:[report copy]];
         }
     }
 }
 
-- (void)submitPendingReports
+- (void)submitFinishedReports
 {
     @synchronized(self) {
         if (self.submitting) {
@@ -111,29 +122,22 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         self.submitting = YES;
         
         __block NSUInteger processedReports = 0;
-        NSArray<SRGDiagnosticReport *> *pendingReports = [self.pendingReports copy];
-        for (SRGDiagnosticReport *report in pendingReports) {
+        NSArray<SRGDiagnosticReport *> *finishedReports = [self.finishedReports copy];
+        for (SRGDiagnosticReport *report in finishedReports) {
             self.submissionBlock([report JSONDictionary], ^(BOOL success) {
                 @synchronized(self) {
                     if (success) {
-                        [self.pendingReports removeObject:report];
+                        [self.finishedReports removeObject:report];
                     }
                     
                     ++processedReports;
-                    if (processedReports == pendingReports.count) {
+                    if (processedReports == finishedReports.count) {
                         self.submitting = NO;
                     }
                 }
             });
         }
     }
-}
-
-#pragma mark Timers
-
-- (void)submitPendingReports:(NSTimer *)timer
-{
-    [self submitPendingReports];
 }
 
 @end
