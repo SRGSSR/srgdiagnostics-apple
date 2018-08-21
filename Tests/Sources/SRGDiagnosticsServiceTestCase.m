@@ -68,6 +68,80 @@
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
+- (void)testMultipleReportSuccessfulSubmission
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
+    
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    
+    __block BOOL report1Submitted = NO;
+    __block BOOL report2Submitted = NO;
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        
+        if ([JSONDictionary[@"uid"] isEqualToString:@"report1"]) {
+            report1Submitted = YES;
+        }
+        else if ([JSONDictionary[@"uid"] isEqualToString:@"report2"]) {
+            report2Submitted = YES;
+        }
+        
+        if (report1Submitted && report2Submitted) {
+            [expectation fulfill];
+        }
+    };
+    
+    SRGDiagnosticReport *report1 = [service reportWithName:@"report1"];
+    [report1 setString:@"report1" forKey:@"uid"];
+    [report1 finish];
+    
+    SRGDiagnosticReport *report2 = [service reportWithName:@"report2"];
+    [report2 setString:@"report2" forKey:@"uid"];
+    [report2 finish];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
+- (void)testMultipleReportSuccessfulSubmissionWithNameReuse
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
+    
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    
+    __block BOOL report1Submitted = NO;
+    __block BOOL report2Submitted = NO;
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        
+        if ([JSONDictionary[@"uid1"] isEqualToString:@"report1"]) {
+            XCTAssertNil(JSONDictionary[@"uid2"]);
+            report1Submitted = YES;
+        }
+        else if ([JSONDictionary[@"uid2"] isEqualToString:@"report2"]) {
+            XCTAssertNil(JSONDictionary[@"uid1"]);
+            report2Submitted = YES;
+        }
+        
+        if (report1Submitted && report2Submitted) {
+            [expectation fulfill];
+        }
+    };
+    
+    SRGDiagnosticReport *report1 = [service reportWithName:@"report"];
+    [report1 setString:@"report1" forKey:@"uid1"];
+    [report1 finish];
+    
+    SRGDiagnosticReport *report2 = [service reportWithName:@"report"];
+    [report2 setString:@"report2" forKey:@"uid2"];
+    [report2 finish];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
 - (void)testUnfinishedReportSubmission
 {
     
@@ -165,10 +239,5 @@
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
-
-// TODO: Tests above:
-//   - Several reports (whose submission never complete) with the same name (all must be added to pending items)
-//   - Multiple submissions
-//   - Create new report with same name while another one with the same name is still pending
 
 @end
