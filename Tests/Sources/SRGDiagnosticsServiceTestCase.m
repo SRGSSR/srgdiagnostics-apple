@@ -89,6 +89,34 @@
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
+- (void)testSubmissionAfterSuccessfulReportubmission
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
+    
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        [expectation fulfill];
+    };
+    
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
+    [report setString:@"My report" forKey:@"title"];
+    [report finish];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+    
+    [self expectationForElapsedTimeInterval:2. withHandler:nil];
+    
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        XCTFail(@"Must not be called since the report was already submitted");
+    };
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
 - (void)testMultipleReportSuccessfulSubmission
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
@@ -165,12 +193,19 @@
 
 - (void)testUnfinishedReportSubmission
 {
+    [self expectationForElapsedTimeInterval:2. withHandler:nil];
     
-}
-
-- (void)testSingleSubmission
-{
-    // Check that submission is made once for a report, not twice
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        XCTFail(@"Must not be called since the report has not been marked as finished");
+    };
+    
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
+    [report setString:@"My report" forKey:@"title"];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
 - (void)testReportFailedFirstSubmission
