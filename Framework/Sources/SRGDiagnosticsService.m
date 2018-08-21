@@ -13,8 +13,6 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 
 @interface SRGDiagnosticsService ()
 
-@property (nonatomic, copy) void (^submissionBlock)(NSDictionary *JSONDictionary, void (^completionBlock)(BOOL success));
-
 @property (nonatomic) NSMutableDictionary<NSString *, SRGDiagnosticReport *> *reports;
 @property (nonatomic) NSMutableArray<SRGDiagnosticReport *> *finishedReports;
 
@@ -27,7 +25,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 
 #pragma mark Class methods
 
-+ (void)registerServiceWithName:(NSString *)name submissionBlock:(void (^)(NSDictionary * _Nonnull, void (^ _Nonnull)(BOOL)))submissionBlock
++ (SRGDiagnosticsService *)serviceWithName:(NSString *)name
 {
     @synchronized(s_diagnosticsServices) {
         static dispatch_once_t s_onceToken;
@@ -40,14 +38,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
             diagnosticsService = [[SRGDiagnosticsService alloc] init];
             s_diagnosticsServices[name] = diagnosticsService;
         }
-        diagnosticsService.submissionBlock = submissionBlock;
-    }
-}
-
-+ (SRGDiagnosticsService *)serviceWithName:(NSString *)name
-{
-    @synchronized(s_diagnosticsServices) {
-        return s_diagnosticsServices[name];
+        return diagnosticsService;
     }
 }
 
@@ -65,10 +56,11 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
 
 #pragma mark Getters and setters
 
-- (void)setTimer:(NSTimer *)timer
+- (void)setSubmissionBlock:(void (^)(NSDictionary * _Nonnull, void (^ _Nonnull)(BOOL)))submissionBlock
 {
-    [_timer invalidate];
-    _timer = timer;
+    @synchronized(self) {
+        _submissionBlock = [submissionBlock copy];
+    }
 }
 
 - (void)setSubmissionInterval:(NSTimeInterval)submissionInterval
@@ -83,6 +75,12 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
     self.timer = [NSTimer srgdiagnostics_timerWithTimeInterval:submissionInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
         [weakSelf submitFinishedReports];
     }];
+}
+
+- (void)setTimer:(NSTimer *)timer
+{
+    [_timer invalidate];
+    _timer = timer;
 }
 
 #pragma mark Reports
@@ -124,7 +122,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         __block NSUInteger processedReports = 0;
         NSArray<SRGDiagnosticReport *> *finishedReports = [self.finishedReports copy];
         for (SRGDiagnosticReport *report in finishedReports) {
-            self.submissionBlock([report JSONDictionary], ^(BOOL success) {
+            void (^completionBlock)(BOOL) = ^(BOOL success) {
                 @synchronized(self) {
                     if (success) {
                         [self.finishedReports removeObject:report];
@@ -135,7 +133,14 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
                         self.submitting = NO;
                     }
                 }
-            });
+            };
+            
+            if (self.submissionBlock) {
+                self.submissionBlock([report JSONDictionary], completionBlock);
+            }
+            else {
+                completionBlock(YES);
+            }
         }
     }
 }

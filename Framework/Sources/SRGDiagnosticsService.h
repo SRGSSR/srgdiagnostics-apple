@@ -18,48 +18,43 @@ static const NSTimeInterval SRGDiagnosticsMinimumSubmissionInterval = 10.;
 static const NSTimeInterval SRGDiagnosticsDisabledSubmissionInterval = DBL_MAX;
 
 /**
- *  A diagnostics service provides a way to create and submit diagnostic reports. When creating a service, a block
- *  must be registered to specify how a report must be submitted (e.g. saved to a file, logged to a console or sent
- *  to a webservice).
+ *  A diagnostics service provides a way to create and submit diagnostic reports. A service, identified by a name,
+ *  is created on the fly when accessed for the first time, and remains in existence for the lifetime of the application.
+ *  Several services can coexist in an application, each submitting diagnostic reports in a different way. The submission
+ *  process itself can take various forms, from webservice request to file logging, for example.
  *
- *  Reports are stored for the lifetime of the application. If a report cannot be submitted, the service will periodically
- *  retry until it succeeds.
+ *  Once a service has been retrieved, a report can be created or retrived by its name. This makes it possible to access
+ *  and fill report information from any part of the application in a decentralized way. Once a report is complete, marking
+ *  it as finished informs the service that it can submit it when possible.
+ *
+ *  Submission is made on a periodic basis. For each finished report which has not been successfully submitted yet, the
+ *  service will attempt to process it, calling a block letting you customize how submission actually occurs. Once it
+ *  has been successfully submitted, a report is automatically discarded.
+ *
+ *  Diagnostics service and reports can be created and accessed from arbitrary threads.
  */
 @interface SRGDiagnosticsService : NSObject
 
 /**
- *  Register a service with a given name and submission block.
- *
- *  @param name            The name which the service must be registered under.
- *  @param submissionBlock The block which is called when submitting a report. Report information is supplied as a
- *                         dictionary which can readily be serialized to JSON. After successful or failed submission
- *                         `completionBlock` must be called so that the service is informed that the report has been
- *                         processed. If the `success` boolean is set to `YES`, the report will be discarded, otherwise
- *                         the service will later attempt to submit it again. Note that the block can be called on
- *                         any thread.
- *
- *  @discussion Registration replaces any existing registration for the specified name.
+ *  Retrieve a service for the specified name (creating the service if it did not exist yet).
  */
-+ (void)registerServiceWithName:(NSString *)name submissionBlock:(void (^)(NSDictionary *JSONDictionary, void (^completionBlock)(BOOL success)))submissionBlock;
-
-/**
- *  Retrieve the service registered under the specified name, if any.
- */
-+ (nullable SRGDiagnosticsService *)serviceWithName:(NSString *)name;
++ (SRGDiagnosticsService *)serviceWithName:(NSString *)name;
 
 /**
  *  Return a report with the specified name. An empty report is created if none existed for the specified name.
  *
- *  @discussion Call the report `-submit` method to finish and submit it.
+ *  @discussion Call the report `-finish` method to finish the report and let the service submit it.
  */
 - (SRGDiagnosticReport *)reportWithName:(NSString *)name;
 
 /**
- *  Trigger submission of finished reports.
+ *  Block which gets called when a report needs to be submitted. Implementations (which might be asynchronous) must call
+ *  the provided completion block when done. If the associated `success` boolean is set to `YES`, the report is discarded,
+ *  otherwise the service will attempt submitting it again until it succeeds.
  *
- *  @discussion Reports are automatically submitted on a regular basis. Call this method to trigger submission earlier.
+ *  @discussion If no block has been assigned, reports will simply be discarded when submitted.
  */
-- (void)submitFinishedReports;
+@property (nonatomic, copy, nullable) void (^submissionBlock)(NSDictionary *JSONDictionary, void (^completionBlock)(BOOL success));
 
 /**
  *  The interval at which finished reports are submitted. Default is `SRGDiagnosticsDefaultSubmissionInterval`. Use
@@ -67,6 +62,13 @@ static const NSTimeInterval SRGDiagnosticsDisabledSubmissionInterval = DBL_MAX;
  *  calling the `-submitFinishedReports` method when reports must be submitted.
  */
 @property (nonatomic) NSTimeInterval submissionInterval;
+
+/**
+ *  Trigger submission of finished reports.
+ *
+ *  @discussion Reports are automatically submitted on a regular basis. Call this method to trigger submission earlier.
+ */
+- (void)submitFinishedReports;
 
 @end
 

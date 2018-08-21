@@ -27,51 +27,25 @@
 
 #pragma mark Tests
 
-- (void)testRegistration
+- (void)testServiceRetrieval
 {
     NSString *name = NSUUID.UUID.UUIDString;
-    XCTAssertNil([SRGDiagnosticsService serviceWithName:name]);
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
-        XCTFail(@"Must not be called on registration");
-        completionBlock(YES);
-    }];
-    XCTAssertNotNil([SRGDiagnosticsService serviceWithName:name]);
-}
-
-- (void)testRegistrationOverride
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
+    SRGDiagnosticsService *service1 = [SRGDiagnosticsService serviceWithName:name];
+    XCTAssertNotNil(service1);
+    XCTAssertNil(service1.submissionBlock);
     
-    NSString *name = NSUUID.UUID.UUIDString;
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
-        XCTFail(@"Must not be called since replaced");
-        completionBlock(YES);
-    }];
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
-        completionBlock(YES);
-        [expectation fulfill];
-    }];
-    
-    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
-    [report setString:@"My report" forKey:@"title"];
-    [report finish];
-    
-    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
-    
-    [self waitForExpectationsWithTimeout:10. handler:nil];
+    SRGDiagnosticsService *service2 = [SRGDiagnosticsService serviceWithName:name];
+    XCTAssertEqualObjects(service1, service2);
 }
 
 - (void)testReportCreation
 {
-    NSString *name = NSUUID.UUID.UUIDString;
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
-        completionBlock(YES);
-    }];
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
     
-    SRGDiagnosticReport *report1 = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report1 = [service reportWithName:@"report"];
     XCTAssertNotNil(report1);
     
-    SRGDiagnosticReport *report2 = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report2 = [service reportWithName:@"report"];
     XCTAssertEqualObjects(report1, report2);
 }
 
@@ -79,17 +53,17 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
     
-    NSString *name = NSUUID.UUID.UUIDString;
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         completionBlock(YES);
         [expectation fulfill];
-    }];
+    };
     
-    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
+    [service submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -103,29 +77,28 @@
 {
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"First submission block called"];
     
-    NSString *name = NSUUID.UUID.UUIDString;
-    
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         completionBlock(NO);
         [expectation1 fulfill];
-    }];
+    };
     
-    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
+    [service submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
     
-    XCTestExpectation *expectation2 = [self expectationWithDescription:@"First submission block called"];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"Second submission block called"];
     
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         completionBlock(YES);
         [expectation2 fulfill];
-    }];
+    };
     
-    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
+    [service submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -134,31 +107,30 @@
 {
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"First submission block called"];
     
-    NSString *name = NSUUID.UUID.UUIDString;
-    
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         completionBlock(NO);
         [expectation1 fulfill];
-    }];
+    };
     
-    SRGDiagnosticReport *report = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
     [report setString:@"My report" forKey:@"title"];
     [report finish];
     
-    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
+    [service submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
     
-    XCTestExpectation *expectation2 = [self expectationWithDescription:@"First submission block called"];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"Second submission block called"];
     
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         XCTAssertEqualObjects(JSONDictionary[@"title"], @"My report");
         completionBlock(YES);
         [expectation2 fulfill];
-    }];
+    };
     
     [report setString:@"Modified title" forKey:@"title"];
-    [[SRGDiagnosticsService serviceWithName:name] submitFinishedReports];
+    [service submitFinishedReports];
     
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
@@ -167,14 +139,14 @@
 {
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"First report submitted"];
     
-    NSString *name = NSUUID.UUID.UUIDString;
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         completionBlock(YES);
         [expectation1 fulfill];
-    }];
-    [SRGDiagnosticsService serviceWithName:name].submissionInterval = 2.;
+    };
+    service.submissionInterval = 2.;
     
-    SRGDiagnosticReport *report1 = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report1 = [service reportWithName:@"report"];
     [report1 setString:@"My report" forKey:@"title"];
     [report1 finish];
     
@@ -182,12 +154,12 @@
     
     XCTestExpectation *expectation2 = [self expectationWithDescription:@"Second report submitted"];
     
-    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
         completionBlock(YES);
         [expectation2 fulfill];
-    }];
+    };
     
-    SRGDiagnosticReport *report2 = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    SRGDiagnosticReport *report2 = [service reportWithName:@"report"];
     [report2 setString:@"My other report" forKey:@"title"];
     [report2 finish];
     
