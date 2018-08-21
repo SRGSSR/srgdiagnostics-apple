@@ -149,16 +149,18 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
-    information.values = [self.values mutableCopy];
-    information.timeMeasurements = [self.timeMeasurements mutableCopy];
-    
-    NSMutableDictionary<NSString *, SRGDiagnosticInformation *> *informationEntries = [NSMutableDictionary dictionary];
-    [self.informationEntries enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticInformation * _Nonnull information, BOOL * _Nonnull stop) {
-        informationEntries[key] = [information copy];
-    }];
-    information.informationEntries = informationEntries;
-    return information;
+    @synchronized(self) {
+        SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
+        information.values = [self.values mutableCopy];
+        information.timeMeasurements = [self.timeMeasurements mutableCopy];
+        
+        NSMutableDictionary<NSString *, SRGDiagnosticInformation *> *informationEntries = [NSMutableDictionary dictionary];
+        [self.informationEntries enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticInformation * _Nonnull information, BOOL * _Nonnull stop) {
+            informationEntries[key] = [information copy];
+        }];
+        information.informationEntries = informationEntries;
+        return information;
+    }
 }
 
 #pragma mark Description
