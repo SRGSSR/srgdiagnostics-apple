@@ -22,11 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDouble:(double)value forKey:(NSString *)key;
 
 /**
- *  Associate objects with keys.
+ *  Associate objects with keys. Setting `nil` removes the associated entry, if any.
  */
-- (void)setString:(NSString *)string forKey:(NSString *)key;
-- (void)setNumber:(NSNumber *)number forKey:(NSString *)key;
-- (void)setURL:(NSURL *)URL forKey:(NSString *)key;
+- (void)setString:(nullable NSString *)string forKey:(NSString *)key;
+- (void)setNumber:(nullable NSNumber *)number forKey:(NSString *)key;
+- (void)setURL:(nullable NSURL *)URL forKey:(NSString *)key;
 
 /**
  *  Start / stop a time measurement, saving the associated value under the specified key.

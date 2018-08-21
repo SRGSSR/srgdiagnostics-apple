@@ -196,4 +196,13 @@ static BOOL SRGAreDictionariesEqualWithAccuracy(NSDictionary *dictionary, NSDict
     SRGAssertEqualDictionariesWithAccuracy([informationCopy JSONDictionary], expectedDictionary, 10.);
 }
 
+- (void)testInformationRemoval
+{
+    SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
+    [information setString:@"Title" forKey:@"title"];
+    XCTAssertEqualObjects([information JSONDictionary], @{ @"title" : @"Title" });
+    [information setString:nil forKey:@"title"];
+    XCTAssertEqualObjects([information JSONDictionary], @{});
+}
+
 @end
