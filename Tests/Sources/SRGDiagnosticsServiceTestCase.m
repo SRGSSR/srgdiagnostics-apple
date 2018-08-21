@@ -68,6 +68,27 @@
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
+- (void)testReportSubmissionAfterSubmissionWithoutReports
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
+    
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    [service submitFinishedReports];
+    
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        [expectation fulfill];
+    };
+    
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
+    [report setString:@"My report" forKey:@"title"];
+    [report finish];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
 - (void)testMultipleReportSuccessfulSubmission
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
@@ -145,6 +166,11 @@
 - (void)testUnfinishedReportSubmission
 {
     
+}
+
+- (void)testSingleSubmission
+{
+    // Check that submission is made once for a report, not twice
 }
 
 - (void)testReportFailedFirstSubmission

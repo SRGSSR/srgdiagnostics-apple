@@ -117,6 +117,10 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
             return;
         }
         
+        if (self.finishedReports.count == 0) {
+            return;
+        }
+        
         self.submitting = YES;
         
         __block NSUInteger processedReports = 0;
