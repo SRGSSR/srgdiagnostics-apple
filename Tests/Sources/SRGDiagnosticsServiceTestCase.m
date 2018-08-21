@@ -165,14 +165,38 @@
 
 - (void)testPeriodicSubmission
 {
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"First report submitted"];
     
+    NSString *name = NSUUID.UUID.UUIDString;
+    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        [expectation1 fulfill];
+    }];
+    [SRGDiagnosticsService serviceWithName:name].submissionInterval = 2.;
+    
+    SRGDiagnosticReport *report1 = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    [report1 setString:@"My report" forKey:@"title"];
+    [report1 finish];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+    
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"Second report submitted"];
+    
+    [SRGDiagnosticsService registerServiceWithName:name submissionBlock:^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        [expectation2 fulfill];
+    }];
+    
+    SRGDiagnosticReport *report2 = [[SRGDiagnosticsService serviceWithName:name] reportWithName:@"report"];
+    [report2 setString:@"My other report" forKey:@"title"];
+    [report2 finish];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
 // TODO: Tests above:
 //   - Several reports (whose submission never complete) with the same name (all must be added to pending items)
 //   - Multiple submissions
 //   - Create new report with same name while another one with the same name is still pending
-//   - Add global information support to service
-//   - Test periodic submission
 
 @end
