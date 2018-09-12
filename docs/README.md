@@ -132,7 +132,7 @@ For example, you can POST the data to a webservice expecting it as body:
     request.HTTPMethod = @"POST";
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:JSONDictionary options:0 error:NULL];
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        completionBlock(error != nil);
+        completionBlock(error == nil);
     }] resume];
 };
 ```
