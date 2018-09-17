@@ -93,7 +93,7 @@ static BOOL SRGAreDictionariesEqualWithAccuracy(NSDictionary *dictionary, NSDict
     XCTAssertEqualObjects([information JSONDictionary], expectedDictionary);
 }
 
-- (void)testPlaySRGInformation
+- (void)testComplexReport
 {
     SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
     [information setString:@"Letterbox/iOS/1.9" forKey:@"player"];
