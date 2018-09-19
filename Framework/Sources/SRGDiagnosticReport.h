@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A diagnostic report. Call the report `-submit` method when a diagnostic report is complete.
+ *  A diagnostic report. Call the report `-finish` method when a diagnostic report is complete and ready for submission.
  */
 @interface SRGDiagnosticReport : SRGDiagnosticInformation
 
