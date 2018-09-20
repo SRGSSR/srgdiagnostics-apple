@@ -168,7 +168,7 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; values = %@; timeMeasurements = %@; informationEntries: %@>",
-            [self class],
+            self.class,
             self,
             self.values,
             self.timeMeasurements,

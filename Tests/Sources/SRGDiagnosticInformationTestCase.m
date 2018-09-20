@@ -20,12 +20,12 @@ static BOOL SRGAreDictionariesEqualWithAccuracy(NSDictionary *dictionary, NSDict
         id value = dictionary[key];
         id referenceValue = referenceDictionary[key];
         
-        if ([value isKindOfClass:[NSDictionary class]] && [referenceValue isKindOfClass:[NSDictionary class]]) {
+        if ([value isKindOfClass:NSDictionary.class] && [referenceValue isKindOfClass:NSDictionary.class]) {
             if (! SRGAreDictionariesEqualWithAccuracy(value, referenceValue, accuracy)) {
                 return NO;
             }
         }
-        else if ([value isKindOfClass:[NSNumber class]] && [referenceValue isKindOfClass:[NSNumber class]]) {
+        else if ([value isKindOfClass:NSNumber.class] && [referenceValue isKindOfClass:NSNumber.class]) {
             if (fabs([value doubleValue] - [referenceValue doubleValue]) > accuracy) {
                 return NO;
             }

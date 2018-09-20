@@ -35,7 +35,7 @@
         }
         
         self.timeInterval = SRGTimeMeasurementUndefined;
-        self.startDate = [NSDate date];
+        self.startDate = NSDate.date;
     }
 }
 
@@ -56,7 +56,7 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; timeInterval = %@>",
-            [self class],
+            self.class,
             self,
             @(self.timeInterval)];
 }

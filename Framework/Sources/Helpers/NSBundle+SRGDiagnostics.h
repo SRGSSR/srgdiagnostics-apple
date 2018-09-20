@@ -11,9 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSBundle (SRGDiagnostics)
 
 /**
- *  The SRGDiagnostics resource bundle.
+ *  The SRG Diagnostics resource bundle.
  */
-+ (NSBundle *)srg_diagnosticsBundle;
+@property (class, nonatomic, readonly) NSBundle *srg_diagnosticsBundle;
 
 @end
 
