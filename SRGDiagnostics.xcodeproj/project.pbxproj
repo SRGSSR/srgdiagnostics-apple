@@ -68,6 +68,8 @@
 		6F21945B212BD481000449AC /* NSTimer+SRGDiagnostics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+SRGDiagnostics.m"; sourceTree = "<group>"; };
 		6F21945E212BD63D000449AC /* SRGDiagnosticsTimerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGDiagnosticsTimerTarget.h; sourceTree = "<group>"; };
 		6F21945F212BD63E000449AC /* SRGDiagnosticsTimerTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsTimerTarget.m; sourceTree = "<group>"; };
+		6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Framework.xcconfig; path = Framework/Framework.xcconfig; sourceTree = SOURCE_ROOT; };
+		6F50EB9F231570CF00A6C0B0 /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
 		6F673C8E212A86D5006C42AE /* SRGDiagnosticsService+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SRGDiagnosticsService+Private.h"; sourceTree = "<group>"; };
 		6FC45895212AA3CD007CAA97 /* SRGDiagnosticsServiceTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticsServiceTestCase.m; sourceTree = "<group>"; };
 		6FC45896212AA3CD007CAA97 /* SRGDiagnosticInformationTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGDiagnosticInformationTestCase.m; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				6F0EB53D20FC7FA9009C02CF /* Sources */,
 				6FE6E5E02148DB5D00228573 /* Resources */,
 				6F0EB53F20FC7FA9009C02CF /* Info.plist */,
+				6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 			children = (
 				6FC45894212AA3CD007CAA97 /* Sources */,
 				6F126F502126E34300158646 /* Info.plist */,
+				6F50EB9F231570CF00A6C0B0 /* Tests.xcconfig */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -438,7 +442,10 @@
 				MARKETING_VERSION = 1.0.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Debug;
 		};
@@ -492,13 +499,17 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MARKETING_VERSION = 1.0.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Release;
 		};
 		6F0EB53A20FC7F58009C02CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -513,16 +524,14 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGDiagnostics;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		6F0EB53B20FC7F58009C02CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -537,90 +546,75 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGDiagnostics;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 		6F126F552126E34300158646 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9F231570CF00A6C0B0 /* Tests.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6F126F562126E34300158646 /* Debug-static */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9F231570CF00A6C0B0 /* Tests.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug-static";
 		};
 		6F126F572126E34300158646 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9F231570CF00A6C0B0 /* Tests.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		6F126F582126E34300158646 /* Release-static */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9F231570CF00A6C0B0 /* Tests.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release-static";
 		};
 		6F126F612126E79E00158646 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Framework/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
 				PRODUCT_NAME = SRGDiagnostics;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -629,12 +623,12 @@
 		};
 		6F126F622126E79E00158646 /* Debug-static */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Framework/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
 				PRODUCT_NAME = SRGDiagnostics;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -643,12 +637,12 @@
 		};
 		6F126F632126E79E00158646 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Framework/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
 				PRODUCT_NAME = SRGDiagnostics;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -657,12 +651,12 @@
 		};
 		6F126F642126E79E00158646 /* Release-static */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Framework/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGDiagnostics-resources";
 				PRODUCT_NAME = SRGDiagnostics;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -726,12 +720,16 @@
 				MARKETING_VERSION = 1.0.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = "Debug-static";
 		};
 		6F1EA3032125B3160095820B /* Debug-static */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_CODE_COVERAGE = NO;
@@ -748,10 +746,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGDiagnostics;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-static";
@@ -806,13 +801,17 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MARKETING_VERSION = 1.0.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = "Release-static";
 		};
 		6F1EA3052125B31C0095820B /* Release-static */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F50EB9E231570C100A6C0B0 /* Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_CODE_COVERAGE = NO;
@@ -829,10 +828,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGDiagnostics;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-static";
