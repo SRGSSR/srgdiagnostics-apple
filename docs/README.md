@@ -1,6 +1,6 @@
-<p align="center"><img src="README-images/logo.png"/></p>
+[![SRG Diagnostics logo](README-images/logo.png)](https://github.com/SRGSSR/srgdiagnostics-ios)
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![GitHub releases](https://img.shields.io/github/v/release/SRGSSR/srgdiagnostics-ios)](https://github.com/SRGSSR/srgdiagnostics-ios/releases) [![platform](https://img.shields.io/badge/platfom-ios%20%7C%20tvos%20%7C%20watchos-blue)](https://github.com/SRGSSR/srgdiagnostics-ios) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![GitHub license](https://img.shields.io/github/license/SRGSSR/srgdiagnostics-ios)](https://github.com/SRGSSR/srgdiagnostics-ios/blob/master/LICENSE)
 
 ## About
 
