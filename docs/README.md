@@ -13,7 +13,7 @@ Reports and services are referenced by name and lazily created when accessed fir
 
 ## Compatibility
 
-The library is suitable for applications running on iOS 9, tvOS 9, watchOS 3 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 10).
+The library is suitable for applications running on iOS 9, tvOS 9, watchOS 3 and above. The project is meant to be opened with the latest Xcode version.
 
 ## Contributing
 
