@@ -279,7 +279,7 @@
 		6F0EB52820FC7F58009C02CF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "SRG SSR";
 				TargetAttributes = {
 					6F0EB53020FC7F58009C02CF = {
