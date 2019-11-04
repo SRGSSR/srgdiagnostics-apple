@@ -136,12 +136,12 @@
 - (NSDictionary<NSString *,id> *)JSONDictionary
 {
     @synchronized(self) {
-        NSMutableDictionary *dictionary = [self.values mutableCopy];
+        NSMutableDictionary *dictionary = self.values.mutableCopy;
         [dictionary addEntriesFromDictionary:[self timeMeasurementsDictionary]];
         [self.informationEntries enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticInformation * _Nonnull information, BOOL * _Nonnull stop) {
             dictionary[key] = [information JSONDictionary];
         }];
-        return [dictionary copy];
+        return dictionary.copy;
     }
 }
 
@@ -151,12 +151,12 @@
 {
     @synchronized(self) {
         SRGDiagnosticInformation *information = [[SRGDiagnosticInformation alloc] init];
-        information.values = [self.values mutableCopy];
-        information.timeMeasurements = [self.timeMeasurements mutableCopy];
+        information.values = self.values.mutableCopy;
+        information.timeMeasurements = self.timeMeasurements.mutableCopy;
         
         NSMutableDictionary<NSString *, SRGDiagnosticInformation *> *informationEntries = [NSMutableDictionary dictionary];
         [self.informationEntries enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SRGDiagnosticInformation * _Nonnull information, BOOL * _Nonnull stop) {
-            informationEntries[key] = [information copy];
+            informationEntries[key] = information.copy;
         }];
         information.informationEntries = informationEntries;
         return information;

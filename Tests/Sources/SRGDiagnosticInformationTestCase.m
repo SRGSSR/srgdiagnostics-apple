@@ -189,7 +189,7 @@ static BOOL SRGAreDictionariesEqualWithAccuracy(NSDictionary *dictionary, NSDict
     [NSThread sleepForTimeInterval:1.];
     [information stopTimeMeasurementForKey:@"time"];
     
-    SRGDiagnosticInformation *informationCopy = [information copy];
+    SRGDiagnosticInformation *informationCopy = information.copy;
     NSDictionary *expectedDictionary = @{ @"title" : @"parent",
                                           @"nestedInformation" : @{ @"subtitle" : @"child" },
                                           @"time" : @1000. };
