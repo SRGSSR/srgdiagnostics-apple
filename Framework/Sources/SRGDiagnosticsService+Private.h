@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)prepareToSubmitReport:(SRGDiagnosticReport *)report;
 
+/**
+ *  Discard the specified report.
+ */
+- (void)discardReport:(SRGDiagnosticReport *)report;
+
 @end
 
 NS_ASSUME_NONNULL_END

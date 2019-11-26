@@ -39,11 +39,16 @@
 
 #pragma clang diagnostic pop
 
-#pragma mark Submission
+#pragma mark Operations
 
 - (void)finish
 {
     [self.diagnosticsService prepareToSubmitReport:self];
+}
+
+- (void)discard
+{
+    [self.diagnosticsService discardReport:self];
 }
 
 @end

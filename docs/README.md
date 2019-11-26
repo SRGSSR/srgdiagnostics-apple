@@ -150,6 +150,14 @@ or simply log the report to the console:
 
 The submission block can be updated at any time, though it should in general be setup once early in the application lifecycle. Once submission has been made, the supplied `completionBlock` must be called, with `YES` iff the submission was successful. Successfully submitted reports are discarded, otherwise the service will attempt to submit it later. The `submissionInterval` property lets you customize at which interval submissions are made.
 
+### Report disposal
+
+Reports stay alive until submitted. If for some reason a report will never be sent, you should discard it to free the associated resources:
+
+```objective-c
+[report discard];
+```
+
 ## License
 
 See the [LICENSE](../LICENSE) file for more information.

@@ -110,6 +110,16 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
     }
 }
 
+- (void)discardReport:(SRGDiagnosticReport *)report
+{
+    @synchronized (self) {
+        NSString *identifier = [self.reports allKeysForObject:report].firstObject;
+        if (identifier) {
+            [self.reports removeObjectForKey:identifier];
+        }
+    }
+}
+
 - (void)submitFinishedReports
 {
     @synchronized(self) {
