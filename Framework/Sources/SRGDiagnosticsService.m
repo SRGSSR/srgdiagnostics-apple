@@ -105,7 +105,17 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         NSString *identifier = [self.reports allKeysForObject:report].firstObject;
         if (identifier) {
             [self.reports removeObjectForKey:identifier];
-            [self.finishedReports addObject:[report copy]];
+            [self.finishedReports addObject:report.copy];
+        }
+    }
+}
+
+- (void)discardReport:(SRGDiagnosticReport *)report
+{
+    @synchronized (self) {
+        NSString *identifier = [self.reports allKeysForObject:report].firstObject;
+        if (identifier) {
+            [self.reports removeObjectForKey:identifier];
         }
     }
 }
@@ -124,7 +134,7 @@ static NSMutableDictionary<NSString *, SRGDiagnosticsService *> *s_diagnosticsSe
         self.submitting = YES;
         
         __block NSUInteger processedReports = 0;
-        NSArray<SRGDiagnosticReport *> *finishedReports = [self.finishedReports copy];
+        NSArray<SRGDiagnosticReport *> *finishedReports = self.finishedReports.copy;
         for (SRGDiagnosticReport *report in finishedReports) {
             void (^completionBlock)(BOOL) = ^(BOOL success) {
                 @synchronized(self) {

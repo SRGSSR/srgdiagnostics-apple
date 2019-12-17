@@ -238,6 +238,43 @@
     [self waitForExpectationsWithTimeout:10. handler:nil];
 }
 
+- (void)testReportDisposal
+{
+    [self expectationForElapsedTimeInterval:2. withHandler:nil];
+    
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        XCTFail(@"Must not be called since the report was discarded (before it was finished)");
+    };
+    
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
+    [report discard];
+    [report finish];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
+- (void)testFinishedReportDisposal
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Submission block called"];
+    
+    SRGDiagnosticsService *service = [SRGDiagnosticsService serviceWithName:NSUUID.UUID.UUIDString];
+    service.submissionBlock = ^(NSDictionary * _Nonnull JSONDictionary, void (^ _Nonnull completionBlock)(BOOL)) {
+        completionBlock(YES);
+        [expectation fulfill];
+    };
+    
+    SRGDiagnosticReport *report = [service reportWithName:@"report"];
+    [report finish];
+    [report discard];
+    
+    [service submitFinishedReports];
+    
+    [self waitForExpectationsWithTimeout:10. handler:nil];
+}
+
 - (void)testReportImmutabilityAfterSubmission
 {
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"First submission block called"];

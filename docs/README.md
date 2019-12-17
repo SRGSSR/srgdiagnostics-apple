@@ -1,6 +1,6 @@
-<p align="center"><img src="README-images/logo.png"/></p>
+[![SRG Diagnostics logo](README-images/logo.png)](https://github.com/SRGSSR/srgdiagnostics-apple)
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![GitHub releases](https://img.shields.io/github/v/release/SRGSSR/srgdiagnostics-apple)](https://github.com/SRGSSR/srgdiagnostics-apple/releases) [![platform](https://img.shields.io/badge/platfom-ios%20%7C%20tvos%20%7C%20watchos-blue)](https://github.com/SRGSSR/srgdiagnostics-apple) [![Build Status](https://travis-ci.org/SRGSSR/srgdiagnostics-apple.svg?branch=master)](https://travis-ci.org/SRGSSR/srgdiagnostics-apple/branches) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![GitHub license](https://img.shields.io/github/license/SRGSSR/srgdiagnostics-apple)](https://github.com/SRGSSR/srgdiagnostics-apple/blob/master/LICENSE)
 
 ## About
 
@@ -13,7 +13,7 @@ Reports and services are referenced by name and lazily created when accessed fir
 
 ## Compatibility
 
-The library is suitable for applications running on iOS 9 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 10).
+The library is suitable for applications running on iOS 9, tvOS 12, watchOS 5 and above. The project is meant to be opened with the latest Xcode version.
 
 ## Contributing
 
@@ -24,7 +24,7 @@ If you want to contribute to the project, have a look at our [contributing guide
 The library can be added to a project using [Carthage](https://github.com/Carthage/Carthage) by adding the following dependency to your `Cartfile`:
     
 ```
-github "SRGSSR/srgdiagnostics-ios"
+github "SRGSSR/srgdiagnostics-apple"
 ```
 
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
@@ -149,6 +149,14 @@ or simply log the report to the console:
 ```
 
 The submission block can be updated at any time, though it should in general be setup once early in the application lifecycle. Once submission has been made, the supplied `completionBlock` must be called, with `YES` iff the submission was successful. Successfully submitted reports are discarded, otherwise the service will attempt to submit it later. The `submissionInterval` property lets you customize at which interval submissions are made.
+
+### Report disposal
+
+Reports stay alive until submitted. If for some reason a report will never be sent, you should discard it to free the associated resources:
+
+```objective-c
+[report discard];
+```
 
 ## License
 

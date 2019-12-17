@@ -20,6 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)finish;
 
+/**
+ *  Discard the report.
+ *
+ *  @discussion Finished reports cannot be discarded. Finishing discarded reports does nothing.
+ */
+- (void)discard;
+
 @end
 
 NS_ASSUME_NONNULL_END
