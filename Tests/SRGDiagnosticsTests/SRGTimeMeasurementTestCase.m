@@ -6,7 +6,7 @@
 
 #import "SRGTimeMeasurement.h"
 
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 @interface SRGTimeMeasurementTestCase : XCTestCase
 

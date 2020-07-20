@@ -4,8 +4,8 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGDiagnostics/SRGDiagnostics.h>
-#import <XCTest/XCTest.h>
+@import SRGDiagnostics;
+@import XCTest;
 
 // Compare two dictionaries. Numbers are compared within a given accuracy
 #define SRGAssertEqualDictionariesWithAccuracy(dictionary, referenceDictionary, accuracy) XCTAssertTrue(SRGAreDictionariesEqualWithAccuracy(dictionary, referenceDictionary, accuracy))
