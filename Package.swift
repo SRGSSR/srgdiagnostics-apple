@@ -28,7 +28,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SRGDiagnosticsTests",
-            dependencies: ["SRGDiagnostics"]
+            dependencies: ["SRGDiagnostics"],
+            cSettings: [
+                .headerSearchPath("Private")
+            ]
         )
     ]
 )

@@ -4,6 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
+// Private framework header
 #import "SRGTimeMeasurement.h"
 
 @import XCTest;
