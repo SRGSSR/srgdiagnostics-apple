@@ -23,7 +23,7 @@ let package = Package(
         .target(
             name: "SRGDiagnostics",
             cSettings: [
-                .define("MARKETING_VERSION", to: "\"\(ProjectSettings.marketingVersion)\""),
+                .define("MARKETING_VERSION", to: "\"\(ProjectSettings.marketingVersion)\"")
             ]
         ),
         .testTarget(
