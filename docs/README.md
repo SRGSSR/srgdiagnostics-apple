@@ -1,6 +1,6 @@
 [![SRG Diagnostics logo](README-images/logo.png)](https://github.com/SRGSSR/srgdiagnostics-apple)
 
-[![GitHub releases](https://img.shields.io/github/v/release/SRGSSR/srgdiagnostics-apple)](https://github.com/SRGSSR/srgdiagnostics-apple/releases) [![platform](https://img.shields.io/badge/platfom-ios%20%7C%20tvos%20%7C%20watchos-blue)](https://github.com/SRGSSR/srgdiagnostics-apple) [![Build Status](https://travis-ci.org/SRGSSR/srgdiagnostics-apple.svg?branch=master)](https://travis-ci.org/SRGSSR/srgdiagnostics-apple/branches) [![GitHub license](https://img.shields.io/github/license/SRGSSR/srgdiagnostics-apple)](https://github.com/SRGSSR/srgdiagnostics-apple/blob/master/LICENSE)
+[![GitHub releases](https://img.shields.io/github/v/release/SRGSSR/srgdiagnostics-apple)](https://github.com/SRGSSR/srgdiagnostics-apple/releases) [![platform](https://img.shields.io/badge/platfom-ios%20%7C%20tvos%20%7C%20watchos-blue)](https://github.com/SRGSSR/srgdiagnostics-apple) [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager) [![Build Status](https://travis-ci.org/SRGSSR/srgdiagnostics-apple.svg?branch=master)](https://travis-ci.org/SRGSSR/srgdiagnostics-apple/branches) [![GitHub license](https://img.shields.io/github/license/SRGSSR/srgdiagnostics-apple)](https://github.com/SRGSSR/srgdiagnostics-apple/blob/master/LICENSE)
 
 ## About
 
