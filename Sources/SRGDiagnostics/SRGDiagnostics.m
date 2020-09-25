@@ -6,9 +6,7 @@
 
 #import "SRGDiagnostics.h"
 
-#import "NSBundle+SRGDiagnostics.h"
-
 NSString *SRGDiagnosticsMarketingVersion(void)
 {
-    return NSBundle.srg_diagnosticsBundle.infoDictionary[@"CFBundleShortVersionString"];
+    return @MARKETING_VERSION;
 }

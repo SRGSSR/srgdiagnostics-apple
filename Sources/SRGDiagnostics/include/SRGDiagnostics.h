@@ -4,12 +4,12 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
+
+// Official version number.
+FOUNDATION_EXPORT NSString *SRGDiagnosticsMarketingVersion(void);
 
 // Public headers.
 #import "SRGDiagnosticInformation.h"
 #import "SRGDiagnosticReport.h"
 #import "SRGDiagnosticsService.h"
-
-// Official version number.
-FOUNDATION_EXPORT NSString *SRGDiagnosticsMarketingVersion(void);

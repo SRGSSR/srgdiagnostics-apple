@@ -4,8 +4,8 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGDiagnostics/SRGDiagnostics.h>
-#import <XCTest/XCTest.h>
+@import SRGDiagnostics;
+@import XCTest;
 
 @interface SRGDiagnosticsServiceTestCase : XCTestCase
 
