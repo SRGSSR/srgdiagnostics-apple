@@ -9,7 +9,7 @@ struct ProjectSettings {
 let package = Package(
     name: "SRGDiagnostics",
     platforms: [
-        .iOS(.v9),
+        .iOS(.v12),
         .tvOS(.v12),
         .watchOS(.v5)
     ],
